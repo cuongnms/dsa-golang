@@ -9,6 +9,7 @@ type Node[T any] struct {
 
 type LinkedList[T any] struct {
 	head *Node[T]
+	size int
 }
 
 func NewLinkedList[T any](value T) *LinkedList[T] {
@@ -16,6 +17,7 @@ func NewLinkedList[T any](value T) *LinkedList[T] {
 	node := &Node[T]{value: value, next: nil}
 	return &LinkedList[T]{
 		head: node,
+		size: 1,
 	}
 }
 
@@ -30,6 +32,7 @@ func (l *LinkedList[T]) Add(value T) {
 		}
 		current.next = newNode
 	}
+	l.size++
 }
 
 func (l *LinkedList[T]) Display() {
@@ -44,23 +47,24 @@ func (l *LinkedList[T]) Display() {
 }
 
 func (l *LinkedList[T]) Remove() {
-	if(l.head.next == nil){
+	if l.head.next == nil {
 		l.head = nil
-	}else{
+	} else {
 		current := l.head
 		for current.next.next != nil {
 			current = current.next
 		}
 		current.next = nil
 	}
-	
+	l.size--
+
 }
 
 func (l *LinkedList[T]) AddAt(index int, value T) {
 	newNode := &Node[T]{value: value, next: nil}
 	if l.head == nil {
 		l.head = newNode
-	}else{
+	} else {
 		count := 0
 		current := l.head
 		for count < index-1 {
@@ -72,28 +76,37 @@ func (l *LinkedList[T]) AddAt(index int, value T) {
 		newNode.next = current.next
 		current.next = newNode
 	}
+	l.size++
 }
 
 func (l *LinkedList[T]) RemoveAt(index int) {
-	if l.head.next == nil && index != 0 {
-		l.head = nil
-	}else {
-		count:=0
+	if index >= l.size {
+		return
+	}
+
+	if index == l.size-1 {
+		l.Remove()
+		return
+	}
+
+	if index == 0 && index < l.size {
+		l.head = l.head.next
+
+	} else {
+		count := 0
 		current := l.head
-		remove := l.head.next
-		for count < index - 1 {
+		for count < index-1 {
 			if current.next != nil {
 				current = current.next
-				remove = remove.next
 				count++
 			}
 		}
-		if count < index - 1 {
-			return
-		}else {
-			current.next = remove.next
-		}
+
+		current.next = current.next.next
+
 	}
+	l.size--
+
 }
 
 func main() {
@@ -105,10 +118,8 @@ func main() {
 	// list.Display()
 	list.AddAt(1, 11)
 	// list.Display()
-	list.Remove()
-	list.Remove()
-	list.Remove()
-	list.Remove()
 	list.Display()
-	
+	list.RemoveAt(4)
+	list.Display()
+
 }
