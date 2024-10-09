@@ -134,7 +134,26 @@ func (b *BinaryTree[T]) remove(node *Node[T], value T){
 	}
 
 	if node.value > value {
-		
+		b.remove(node.left, value)
+	}else if node.value < value {
+		b.remove(node.right, value)
+	}else {
+		if node.left == nil && node.right == nil {
+            node = nil
+        } else if node.left == nil {
+            node = node.right
+        } else if node.right == nil {
+            node = node.left
+        } else {
+            minNode, err := b.minNode(node)
+            if err!= nil {
+                fmt.Println("Error finding min node")
+                return
+            }
+            node.value = minNode.value
+            b.remove(minNode, value)
+        }
+        return
 	}
 	
 	
@@ -169,8 +188,6 @@ func main() {
 	// tree.travelRootToLeftToRight(tree.root)
 	// tree.travelByLevel()
 	// tree.find(tree.root, 9)
-	node, err := tree.minNode(tree.root.left)
-	if err == nil {
-		fmt.Println(node.value)
-	}
+	tree.remove(tree.root, 8)
+	fmt.Println(tree.root.left.value)//9
 }
