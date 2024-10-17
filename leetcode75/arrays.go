@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"slices"
 	"strings"
 	"unicode"
@@ -386,7 +387,7 @@ func productExceptSelf(nums []int) []int {
 	// 			}else {
 	// 				rs = append(rs, product/nums[i])
 	// 			}
-				
+
 	// 		} else {
 	// 			rs = append(rs, product)
 	// 		}
@@ -394,30 +395,80 @@ func productExceptSelf(nums []int) []int {
 	// 	return rs
 	// }
 	//Approach 2: calculate the suffix and prefix of each element in array
-	//Example: 
+	//Example:
 	//            [1, 2 ,4, 6 ,8]
 	//-> prefix:  [1, 1, 1*2, 1*2*4, 1*2*4*6]
 	//-> suffix:  [2*4*6*8, 4*6*8, 6*8, 8, 1]
 	var prefix []int
 	var suffix []int
-	for i:= 0 ; i < len(nums); i++ {
+	for i := 0; i < len(nums); i++ {
 		prefix = append(prefix, 1)
 		suffix = append(suffix, 1)
 	}
 
-	for i:= 1; i < len(nums);i++ {
+	for i := 1; i < len(nums); i++ {
 		prefix[i] = prefix[i-1] * nums[i-1]
 	}
 
-	for i:= len(nums) - 2; i>=0; i-- {
-		suffix[i] = suffix[i+1]*nums[i+1]
+	for i := len(nums) - 2; i >= 0; i-- {
+		suffix[i] = suffix[i+1] * nums[i+1]
 	}
 	fmt.Println(prefix)
 	fmt.Println(suffix)
 
-	var rs []int 
-	for i:=0; i < len(nums); i++ {
+	var rs []int
+	for i := 0; i < len(nums); i++ {
 		rs = append(rs, prefix[i]*suffix[i])
 	}
 	return rs
 }
+
+/*
+Given an integer array nums, return true if there exists a triple of indices (i, j, k) such that i < j < k and nums[i] < nums[j] < nums[k].
+If no such indices exists, return false.
+
+Example 1:
+
+Input: nums = [1,2,3,4,5]
+Output: true
+Explanation: Any triplet where i < j < k is valid.
+Example 2:
+
+Input: nums = [5,4,3,2,1]
+Output: false
+Explanation: No triplet exists.
+Example 3:
+
+Input: nums = [2,1,5,0,4,6]
+Output: true
+Explanation: The triplet (3, 4, 5) is valid because nums[3] == 0 < nums[4] == 4 < nums[5] == 6.
+
+Constraints:
+
+1 <= nums.length <= 5 * 105
+-231 <= nums[i] <= 231 - 1
+
+Follow up: Could you implement a solution that runs in O(n) time complexity and O(1) space complexity?
+*/
+func increasingTriplet(nums []int) bool {
+
+	// min1 = 2
+	// min1 = 1
+	// min2=
+	min1 := int(math.MaxInt)
+	min2 := int(math.MaxInt)
+	for _, num := range nums {
+		if num <= min1 {
+			min1 = num
+			fmt.Println("min1 = ", min1)
+		} else if num <= min2 {
+			min2 = num
+			fmt.Println("min2 = ", min2)
+		} else {
+			return true
+		}
+	}
+
+	return false
+}
+
