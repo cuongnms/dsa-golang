@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 /*
 Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
@@ -190,8 +193,8 @@ Return the maximum number of operations you can perform on the array.
 Example 1:
 
 Input: nums = [1,2,3,4], k = 5
-1 2 3 4
-1 4 4 1
+0 3
+
 
 
 Output: 2
@@ -202,6 +205,7 @@ There are no more pairs that sum up to 5, hence a total of 2 operations.
 Example 2:
 
 Input: nums = [3,1,3,4,3], k = 6
+1 3 3 3 4
 Output: 1
 Explanation: Starting with nums = [3,1,3,4,3]:
 - Remove the first two 3's, then nums = [1,4,3]
@@ -216,14 +220,21 @@ Constraints:
 */
 func maxOperations(nums []int, k int) int {
 	count:=0
-	i:=0
-	for i < len(nums)  {
-		j:= i+1
-		for j < len(nums) {
-			if nums[i] + nums[j] == k {
-				count++
+	sort.Ints(nums)
+
+	left, right:=0, len(nums)-1
+	for left < right {
+		if nums[left] + nums[right] == k {
+			count++
+            left++
+            right--
+		}else {
+			if nums[left] + nums[right] < k {
+				left++
+			}else if nums[left] + nums[right] > k {
+				right--
 			}
 		}
-		
 	}
+	return count
 }
