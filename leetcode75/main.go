@@ -17,5 +17,4 @@ func main() {
 	//fmt.Println(compress([]byte{'a','a', 'b', 'b', 'b', 'b', 'c', 'a', 'a'}))
 	// moveZeroes([]int{1,2,0,2,4,0,0,6 })
 	fmt.Println(isSubsequence("abc", "ahbgdc"))
-
 }
