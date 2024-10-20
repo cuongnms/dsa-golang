@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"slices"
+	"strconv"
 	"strings"
 	"unicode"
 )
@@ -191,46 +193,65 @@ There are no two adjacent flowers in flowerbed.
 */
 
 func canPlaceFlowers(flowerbed []int, n int) bool {
-	if n == 0 {
+
+	if n==0 {
 		return true
 	}
-	if len(flowerbed) == 1 {
-		if n <= 1 {
-			if flowerbed[0] == 1 {
-				return false
-			} else {
+	
+	for i:=0; i < len(flowerbed); i++ {
+		if (i==0 && flowerbed[i]==0 && flowerbed[i+1]==0) || 
+		(i==len(flowerbed)- 1 && flowerbed[i] == 0 && flowerbed[i-1]==0) || 
+		(i>0 && i < len(flowerbed) && flowerbed[i-1]==0 && flowerbed[i+1]==0 && flowerbed[i] ==0) {
+			flowerbed[i]=1
+			n--
+			if n==0 {
 				return true
 			}
-		} else {
-			return false
-		}
+		} 
+			
 	}
+	return false
 
-	start, end := 0, 1
-	count := 0
-	for start < len(flowerbed) && end < len(flowerbed) {
-		if flowerbed[end] == 1 && flowerbed[start] == 1 {
-			count = count + (end-start)/2 - 1
-			start = end
-			end++
-		} else if flowerbed[end] == 1 {
-			count = count + (end-start)/2
-			start = end
-			end++
-		} else {
-			end++
-		}
-	}
-	if flowerbed[start] == 1 && flowerbed[end-1] == 0 {
-		count = count + (end-1-start)/2
-	} else if flowerbed[start] == 0 && flowerbed[end-1] == 0 {
-		count = count + (end-1-start)/2 + 1
-	}
-	if count >= n {
-		return true
-	} else {
-		return false
-	}
+	// if n == 0 {
+	// 	return true
+	// }
+	// if len(flowerbed) == 1 {
+	// 	if n <= 1 {
+	// 		if flowerbed[0] == 1 {
+	// 			return false
+	// 		} else {
+	// 			return true
+	// 		}
+	// 	} else {
+	// 		return false
+	// 	}
+	// }
+
+	// start, end := 0, 1
+	// count := 0
+	// for start < len(flowerbed) && end < len(flowerbed) {
+	// 	if flowerbed[end] == 1 && flowerbed[start] == 1 {
+	// 		count = count + (end-start)/2 - 1
+	// 		start = end
+	// 		end++
+	// 	} else if flowerbed[end] == 1 {
+	// 		count = count + (end-start)/2
+	// 		start = end
+	// 		end++
+	// 	} else {
+	// 		end++
+	// 	}
+	// }
+	// if flowerbed[start] == 1 && flowerbed[end-1] == 0 {
+	// 	count = count + (end-1-start)/2
+	// } else if flowerbed[start] == 0 && flowerbed[end-1] == 0 {
+	// 	count = count + (end-1-start)/2 + 1
+	// }
+	// if count >= n {
+	// 	return true
+	// } else {
+	// 	return false
+	// }
 }
 
 /*
@@ -386,7 +407,7 @@ func productExceptSelf(nums []int) []int {
 	// 			}else {
 	// 				rs = append(rs, product/nums[i])
 	// 			}
-				
+
 	// 		} else {
 	// 			rs = append(rs, product)
 	// 		}
@@ -394,30 +415,148 @@ func productExceptSelf(nums []int) []int {
 	// 	return rs
 	// }
 	//Approach 2: calculate the suffix and prefix of each element in array
-	//Example: 
+	//Example:
 	//            [1, 2 ,4, 6 ,8]
 	//-> prefix:  [1, 1, 1*2, 1*2*4, 1*2*4*6]
 	//-> suffix:  [2*4*6*8, 4*6*8, 6*8, 8, 1]
 	var prefix []int
 	var suffix []int
-	for i:= 0 ; i < len(nums); i++ {
+	for i := 0; i < len(nums); i++ {
 		prefix = append(prefix, 1)
 		suffix = append(suffix, 1)
 	}
 
-	for i:= 1; i < len(nums);i++ {
+	for i := 1; i < len(nums); i++ {
 		prefix[i] = prefix[i-1] * nums[i-1]
 	}
 
-	for i:= len(nums) - 2; i>=0; i-- {
-		suffix[i] = suffix[i+1]*nums[i+1]
+	for i := len(nums) - 2; i >= 0; i-- {
+		suffix[i] = suffix[i+1] * nums[i+1]
 	}
 	fmt.Println(prefix)
 	fmt.Println(suffix)
 
-	var rs []int 
-	for i:=0; i < len(nums); i++ {
+	var rs []int
+	for i := 0; i < len(nums); i++ {
 		rs = append(rs, prefix[i]*suffix[i])
 	}
 	return rs
+}
+
+/*
+Given an integer array nums, return true if there exists a triple of indices (i, j, k) such that i < j < k and nums[i] < nums[j] < nums[k].
+If no such indices exists, return false.
+
+
+
+Example 1:
+
+Input: nums = [1,2,3,4,5]
+Output: true
+Explanation: Any triplet where i < j < k is valid.
+Example 2:
+
+Input: nums = [5,4,3,2,1]
+Output: false
+Explanation: No triplet exists.
+Example 3:
+
+Input: nums = [2,1,5,0,4,6]
+Output: true
+Explanation: The triplet (3, 4, 5) is valid because nums[3] == 0 < nums[4] == 4 < nums[5] == 6.
+
+
+Constraints:
+
+1 <= nums.length <= 5 * 105
+-231 <= nums[i] <= 231 - 1
+
+
+Follow up: Could you implement a solution that runs in O(n) time complexity and O(1) space complexity?
+*/
+
+func increasingTriplet(nums []int) bool {
+	min1 := math.MaxInt
+	min2 := math.MaxInt
+
+	for _, num := range nums {
+		if num <= min1 {
+			min1 = num
+		} else if num <= min2 {
+			min2 = num
+		} else {
+			return true
+		}
+	}
+	return false
+}
+
+/*
+Given an array of characters chars, compress it using the following algorithm:
+
+Begin with an empty string s. For each group of consecutive repeating characters in chars:
+
+If the group's length is 1, append the character to s.
+Otherwise, append the character followed by the group's length.
+The compressed string s should not be returned separately, but instead, be stored in the input character array chars.
+Note that group lengths that are 10 or longer will be split into multiple characters in chars.
+
+After you are done modifying the input array, return the new length of the array.
+
+You must write an algorithm that uses only constant extra space.
+
+Example 1:
+
+Input: chars = ["a","a","b","b","c","c","c"]
+Output: Return 6, and the first 6 characters of the input array should be: ["a","2","b","2","c","3"]
+Explanation: The groups are "aa", "bb", and "ccc". This compresses to "a2b2c3".
+Example 2:
+
+Input: chars = ["a"]
+Output: Return 1, and the first character of the input array should be: ["a"]
+Explanation: The only group is "a", which remains uncompressed since it's a single character.
+Example 3:				
+			     a   b  
+Input: chars = ["a","b","b","b","b","b","b","b","b","b","b","b","b"]
+Output: Return 4, and the first 4 characters of the input array should be: ["a","b","1","2"].
+Explanation: The groups are "a" and "bbbbbbbbbbbb". This compresses to "ab12".
+
+Constraints:
+
+1 <= chars.length <= 2000
+chars[i] is a lowercase English letter, uppercase English letter, digit, or symbol.
+*/
+func compress(chars []byte) int {
+
+	// a a b b b b c a a
+    // a 2 b 4 c a 2 a a
+	// a2b4ca2
+	if len(chars) == 1 {
+		return 1
+	}
+	pointer := 0
+	i:=0
+	iRs := 0
+	for i < len(chars) {
+		for pointer < len(chars) {
+			if chars[i] == chars[pointer] {
+				pointer++
+			}else {
+				break
+			}
+		}
+		if pointer - i > 1 {
+			rsStr := string(chars[i]) + strconv.Itoa(pointer-i)
+			for j:=0; j < len(rsStr); j++ {
+				chars[iRs+j] = rsStr[j]
+			}
+			iRs=iRs+len(rsStr)
+		}else {
+			chars[iRs] = chars[i]
+			iRs=iRs+1
+		}
+		i = pointer
+	}
+
+	return iRs
 }
