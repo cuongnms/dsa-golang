@@ -18,5 +18,6 @@ func main() {
 	// moveZeroes([]int{1,2,0,2,4,0,0,6 })
 	// fmt.Println(isSubsequence("abc", "ahbgdc"))
 	// fmt.Println(maxOperations([]int{0, 4,1,2,5,6,9,3}, 4))
-	fmt.Println(findMaxAverage([]int{9,7,3,5,6,2,0,8,1,9}, 6))
+	// fmt.Println(findMaxAverage([]int{9,7,3,5,6,2,0,8,1,9}, 6))
+	fmt.Println(maxVowels("abciiidef", 3))
 }
