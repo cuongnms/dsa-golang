@@ -20,5 +20,5 @@ func main() {
 	// fmt.Println(maxOperations([]int{0, 4,1,2,5,6,9,3}, 4))
 	// fmt.Println(findMaxAverage([]int{9,7,3,5,6,2,0,8,1,9}, 6))
 	// fmt.Println(maxVowels("abciiidef", 3))
-	fmt.Println(longestOnes([]int{1,1,1,0,0,0,1,1,1,1,0}, 4))
+	fmt.Println(longestOnes([]int{1,1,1,0,0,0,1,1,1,1,0}, 2))
 }

@@ -124,43 +124,113 @@ nums[i] is either 0 or 1.
 0 <= k <= nums.length
 */
 func longestOnes(nums []int, k int) int {
-	//1 1 1 0 0 0 1 1 1 1 0
-	//left = 0
-	//right =0
-	//1 1 1 1 0 0 1 1 1 1 0
-	//left = 0
-	//right = 4
-	//1 1 1 1 1 0 1 1 1 1 0
-	//left = 0
-	//right = 4
+	// left, right:=0,0
+	// zeroCount:=0
+	// max:= 0 
+	// for right<len(nums) {
+	// 	if nums[right] == 0 {
+	// 		zeroCount++
+	// 	}
+	// 	for zeroCount > k {
+	// 		if nums[left] == 0 {
+	// 			zeroCount--
+	// 		}
+	// 		left++
+	// 	}
+	// 	if zeroCount <=k {
+	// 		if max < right - left + 1 {
+    //             max = right - left + 1
+    //         }
+	// 	}
+	// 	right++
+	// }
+	// fmt.Println(max)
+	// return max
 
-	left := 0
-	right := 0
-	count := 0
-	max := 0
+	left, right:=0,0
+	zeroCount:=0
+	max:= 0 
+	for right<len(nums) {
+		if nums[right] == 0 {
+			zeroCount++
+		}
+		if zeroCount > k {
+
+			if nums[left] == 0 {
+				zeroCount--
+			}
+			left++
+		}
+		if zeroCount <= k {
+			if max < right - left + 1 {
+				max = right - left + 1
+			}
+		}
+		right++
+	}
+    return max
+
+}
+
+/*
+Given a binary array nums, you should delete one element from it.
+
+Return the size of the longest non-empty subarray containing only 1's in the resulting array. 
+Return 0 if there is no such subarray.
+
+Example 1:
+
+Input: nums = [1,1,0,1]
+Output: 3
+Explanation: After deleting the number in position 2, [1,1,1] contains 3 numbers with value of 1's.
+Example 2:
+
+Input: nums = [0,1,1,1,0,1,1,0,1]
+Output: 5
+Explanation: After deleting the number in position 4, [0,1,1,1,1,1,0,1] longest subarray with value of 1's is [1,1,1,1,1].
+Example 3:
+
+Input: nums = [1,1,1]
+Output: 2
+Explanation: You must delete one element.
+ 
+Constraints:
+
+1 <= nums.length <= 105
+nums[i] is either 0 or 1.
+*/
+func longestSubarray(nums []int) int {
+	/*
+	for right < len(nums) {
+	  	if nums[right] == 1 => right++ => continue
+		
+		if nums[right] == 0 
+			=> if zeroCount <= 1 
+					=> zeroCount ++
+					=> right++ 
+					
+					
+	}
+	*/
+	left, right:=0,0
+	z:=0
+	max:=0
 	for right < len(nums) {
 		if nums[right] == 0 {
-			if count < k {
-				right++
-				count++
-			}else {
-				if max <= right-left {
-					max = right - left
-				}
-				left++
-				right = left
-				count = 0
-			}	
-		}else if nums[right] == 1 {
-			right++
-			
-		} 
-	}
-	if right == len(nums) {
-		if max <= right-left {
-			max = right - left
+			z++
 		}
+		if z >1 {
+			if nums[left] == 0 {
+				z--
+			}
+			left++
+		}
+		if z<=1 {
+			if max < right - left + 1 {
+                max = right - left + 1
+            }
+		}
+		right++
 	}
-	fmt.Println(max)
-	return max
+	return max -1
 }
