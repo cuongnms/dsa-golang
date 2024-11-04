@@ -1,6 +1,5 @@
 package main
 
-import "fmt"
 
 /*
 You are given an integer array nums consisting of n elements, and an integer k.
@@ -234,3 +233,5 @@ func longestSubarray(nums []int) int {
 	}
 	return max -1
 }
+
+
