@@ -21,5 +21,6 @@ func main() {
 	// fmt.Println(findMaxAverage([]int{9,7,3,5,6,2,0,8,1,9}, 6))
 	// fmt.Println(maxVowels("abciiidef", 3))
 	// fmt.Println(longestOnes([]int{1,1,1,0,0,0,1,1,1,1,0}, 2))
-	fmt.Println(largestAltitude([]int{-5,1,5,0,-7}))
+	// fmt.Println(largestAltitude([]int{-5,1,5,0,-7}))
+	fmt.Println(pivotIndex([]int{1,7,3,6,5,6}))
 }
