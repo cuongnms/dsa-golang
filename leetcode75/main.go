@@ -22,5 +22,6 @@ func main() {
 	// fmt.Println(maxVowels("abciiidef", 3))
 	// fmt.Println(longestOnes([]int{1,1,1,0,0,0,1,1,1,1,0}, 2))
 	// fmt.Println(largestAltitude([]int{-5,1,5,0,-7}))
-	fmt.Println(pivotIndex([]int{1,7,3,6,5,6}))
+	// fmt.Println(pivotIndex([]int{1,7,3,6,5,6}))
+	fmt.Println(findDifference([]int{1,2,3}, []int{2,4,6}))
 }
