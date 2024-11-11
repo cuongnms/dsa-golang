@@ -1,4 +1,7 @@
 package main
+
+import "strconv"
+
 // import "fmt"
 
 /*
@@ -202,4 +205,64 @@ func closeStrings(word1 string, word2 string) bool {
 
 	return true
 	
+}
+
+
+/*
+Given a 0-indexed n x n integer matrix grid, return the number of pairs (ri, cj) such that row ri and column cj are equal.
+
+A row and column pair is considered equal if they contain the same elements in the same order (i.e., an equal array).
+
+ 
+
+Example 1:
+
+
+Input: grid = [[3,2,1],[1,7,6],[2,7,7]]
+Output: 1
+Explanation: There is 1 equal row and column pair:
+- (Row 2, Column 1): [2,7,7]
+Example 2:
+
+
+Input: grid = [[3,1,2,2],[1,4,4,5],[2,4,2,2],[2,4,2,2]]
+Output: 3
+Explanation: There are 3 equal row and column pairs:
+- (Row 0, Column 0): [3,1,2,2]
+- (Row 2, Column 2): [2,4,2,2]
+- (Row 3, Column 2): [2,4,2,2]
+ 
+
+Constraints:
+
+n == grid.length == grid[i].length
+1 <= n <= 200
+1 <= grid[i][j] <= 105
+*/
+func equalPairs(grid [][]int) int {
+    map1:=make(map[string]int)
+	map2:=make(map[string]int)
+	
+	for r:=0; r<len(grid); r++{
+		str:=""
+		for c:=0 ; c<len(grid); c++ {
+			str+="-" + strconv.Itoa(grid[r][c])
+		}
+		map1[str]++
+	}
+
+	for r:=0; r<len(grid); r++{
+		str:=""
+		for c:=0 ; c<len(grid); c++ {
+			str+="-" + strconv.Itoa(grid[c][r])
+		}
+		map2[str]++
+	}
+	rs:=0
+	for key1, val1:= range map1 {
+		if val2, exist:=map2[key1]; exist {
+            rs += val1 * val2
+        }
+	}
+	return rs
 }
