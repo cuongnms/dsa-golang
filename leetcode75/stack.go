@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 /*
 You are given a string s, which contains stars *.
@@ -32,44 +35,264 @@ Constraints:
 s consists of lowercase English letters and stars *.
 The operation above can be performed on s.
 */
-type Stack struct{
+type ByteStack struct {
 	data []byte
 }
 
-func NewStack() *Stack {
-	return &Stack{}
+func NewByteStack() *ByteStack {
+	return &ByteStack{}
 }
 
-func (s *Stack) Pop() (byte, error) {
+func (s *ByteStack) Pop() (byte, error) {
 	if len(s.data) == 0 {
-		return byte(0), fmt.Errorf("Empty stack") 
+		return byte(0), fmt.Errorf("empty stack")
 	}
-	rs:= s.data[len(s.data)- 1]
+	rs := s.data[len(s.data)-1]
 	s.data = s.data[:len(s.data)-1]
 	return rs, nil
 }
 
-func (s *Stack) Push(letter byte) {
+func (s *ByteStack) Push(letter byte) {
 	s.data = append(s.data, letter)
 }
 
-func (s *Stack) Peek() (byte, error) {
+func (s *ByteStack) Peek() (byte, error) {
 	if len(s.data) == 0 {
-		return byte(0), fmt.Errorf("Empty stack")
+		return byte(0), fmt.Errorf("empty stack")
 	}
-	return s.data[len(s.data) - 1], nil
+	return s.data[len(s.data)-1], nil
+}
+
+func (s *ByteStack) IsEmpty() bool {
+	return len(s.data) == 0
 }
 
 func removeStars(s string) string {
-    // leetcode
-	// 
-	stack := NewStack()
-	for i:=0; i < len(s); i++ {
+	// leetcode
+	//
+	stack := NewByteStack()
+	for i := 0; i < len(s); i++ {
 		if s[i] != '*' {
 			stack.Push(s[i])
-		}else {
+		} else {
 			stack.Pop()
 		}
 	}
 	return string(stack.data)
+}
+
+/*
+We are given an array asteroids of integers representing asteroids in a row.
+For each asteroid, the absolute value represents its size, and the sign represents its direction (positive meaning right, negative meaning left).
+Each asteroid moves at the same speed.
+Find out the state of the asteroids after all collisions. If two asteroids meet, the smaller one will explode.
+If both are the same size, both will explode. Two asteroids moving in the same direction will never meet.
+
+Example 1:
+[5, 10, -11, -12]
+
+Input: asteroids = [5,10,-5]
+Output: [5,10]
+Explanation: The 10 and -5 collide resulting in 10. The 5 and 10 never collide.
+Example 2:
+
+Input: asteroids = [8,-8]
+Output: []
+Explanation: The 8 and -8 collide exploding each other.
+Example 3:
+
+Input: asteroids = [10,2,-5]
+Output: [10]
+Explanation: The 2 and -5 collide resulting in -5. The 10 and -5 collide resulting in 10.
+
+[-2, -1, 1, 2]
+
+Constraints:
+
+2 <= asteroids.length <= 104
+-1000 <= asteroids[i] <= 1000
+asteroids[i] != 0
+*/
+type IntStack struct {
+	data []int
+}
+
+func NewIntStack() *IntStack {
+	return &IntStack{}
+}
+
+func (s *IntStack) Pop() (int, error) {
+	if len(s.data) == 0 {
+		return 0, fmt.Errorf("empty stack")
+	}
+	rs := s.data[len(s.data)-1]
+	s.data = s.data[:len(s.data)-1]
+	return rs, nil
+}
+
+func (s *IntStack) Push(letter int) {
+	s.data = append(s.data, letter)
+}
+
+func (s *IntStack) Peek() (int, error) {
+	if len(s.data) == 0 {
+		return 0, fmt.Errorf("empty stack")
+	}
+	return s.data[len(s.data)-1], nil
+}
+
+func (s *IntStack) IsEmpty() bool {
+	return len(s.data) == 0
+}
+
+func absInt(n int) int {
+	if n < 0 {
+		return -n
+	}
+	return n
+}
+
+func asteroidCollision(asteroids []int) []int {
+	stack := NewIntStack()
+	i := 0
+	for i < len(asteroids) {
+		if stack.IsEmpty() {
+			stack.Push(asteroids[i])
+			i++
+		} else {
+			if val, err := stack.Peek(); err == nil && val*asteroids[i] < 0 {
+				if val < 0 && asteroids[i] > 0 {
+					stack.Push(asteroids[i])
+					i++
+					continue
+				}
+				if absInt(val) < absInt(asteroids[i]) {
+					stack.Pop()
+				} else if absInt(val) == absInt(asteroids[i]) {
+					stack.Pop()
+					i++
+				} else {
+					i++
+				}
+			} else if val, err := stack.Peek(); err == nil && val*asteroids[i] > 0 {
+
+				stack.Push(asteroids[i])
+				i++
+			}
+		}
+	}
+	return stack.data
+}
+
+/*
+Given an encoded string, return its decoded string.
+The encoding rule is: k[encoded_string], where the encoded_string inside the square brackets is being repeated exactly k times.
+Note that k is guaranteed to be a positive integer.
+You may assume that the input string is always valid; there are no extra white spaces, square brackets are well-formed, etc.
+Furthermore, you may assume that the original data does not contain any digits and that digits are only for those repeat numbers, k.
+For example, there will not be input like 3a or 2[4].
+The test cases are generated so that the length of the output will never exceed 105.
+
+Example 1:
+Input: s = "3[a]2[bc]"
+Output: "aaabcbc" 
+
+Example 2:
+Input: s = "3[a2[c]]"
+Output: "accaccacc"
+
+// 3 [ a 2 [ c
+
+Example 3:
+Input: s = "2[abc]3[cd]ef"
+Output: "abcabccdcdcdef"
+
+Constraints:
+1 <= s.length <= 30
+s consists of lowercase English letters, digits, and square brackets '[]'.
+s is guaranteed to be a valid input.
+All the integers in s are in the range [1, 300].
+*/
+
+// type StrStack struct {
+// 	data []string
+// }
+
+// func NewStrStack() *StrStack {
+// 	return &StrStack{}
+// }
+
+// func (s *StrStack) Pop() (string, error) {
+// 	if len(s.data) == 0 {
+// 		return "", fmt.Errorf("empty stack")
+// 	}
+// 	rs := s.data[len(s.data)-1]
+// 	s.data = s.data[:len(s.data)-1]
+// 	return rs, nil
+// }
+
+// func (s *StrStack) Push(letter string) {
+// 	s.data = append(s.data, letter)
+// }
+
+// func (s *StrStack) Peek() (string, error) {
+// 	if len(s.data) == 0 {
+// 		return "", fmt.Errorf("empty stack")
+// 	}
+// 	return s.data[len(s.data)-1], nil
+// }
+
+// func (s *StrStack) IsEmpty() bool {
+// 	return len(s.data) == 0
+// }
+func isDigit(b byte) bool {
+    return b >= '0' && b <= '9'
+}
+func decodeString(s string) string {
+	// b3[a2[c]]
+	// 3 a 2 c 
+	// 
+
+	rs:=""
+	stackByte := NewByteStack()
+	// stackInt := NewIntStack()
+	i:=0
+	for i < len(s) {
+		if s[i] != '[' && s[i] != ']' {
+			stackByte.Push(s[i])
+		}else if s[i] == ']' {
+			count:= ""
+			substr:= ""
+			for !stackByte.IsEmpty() {
+				val, err:= stackByte.Peek()
+				if err == nil && val >='a' && val <= 'z' {
+					stackByte.Pop()
+					substr = string(val) + substr
+				}else {
+					break
+				}
+			}
+			for !stackByte.IsEmpty() {
+				val, err:= stackByte.Peek()
+				if err == nil && isDigit(val) {
+					stackByte.Pop()
+					count = string(val) + count
+				}else {
+					break
+				}
+			}
+			if count != "" {
+				val, err := strconv.Atoi(count)
+				if err == nil {
+					for i:=0; i < val; i++ {
+						rs+=substr
+					}
+					fmt.Println(rs) // cc
+				}
+			}
+		}
+		i++
+
+	}
+	return rs
 }
