@@ -214,84 +214,72 @@ s is guaranteed to be a valid input.
 All the integers in s are in the range [1, 300].
 */
 
-// type StrStack struct {
-// 	data []string
-// }
+type StrStack struct {
+	data []string
+}
 
-// func NewStrStack() *StrStack {
-// 	return &StrStack{}
-// }
+func NewStrStack() *StrStack {
+	return &StrStack{}
+}
 
-// func (s *StrStack) Pop() (string, error) {
-// 	if len(s.data) == 0 {
-// 		return "", fmt.Errorf("empty stack")
-// 	}
-// 	rs := s.data[len(s.data)-1]
-// 	s.data = s.data[:len(s.data)-1]
-// 	return rs, nil
-// }
+func (s *StrStack) Pop() (string, error) {
+	if len(s.data) == 0 {
+		return "", fmt.Errorf("empty stack")
+	}
+	rs := s.data[len(s.data)-1]
+	s.data = s.data[:len(s.data)-1]
+	return rs, nil
+}
 
-// func (s *StrStack) Push(letter string) {
-// 	s.data = append(s.data, letter)
-// }
+func (s *StrStack) Push(letter string) {
+	s.data = append(s.data, letter)
+}
 
-// func (s *StrStack) Peek() (string, error) {
-// 	if len(s.data) == 0 {
-// 		return "", fmt.Errorf("empty stack")
-// 	}
-// 	return s.data[len(s.data)-1], nil
-// }
+func (s *StrStack) Peek() (string, error) {
+	if len(s.data) == 0 {
+		return "", fmt.Errorf("empty stack")
+	}
+	return s.data[len(s.data)-1], nil
+}
 
-// func (s *StrStack) IsEmpty() bool {
-// 	return len(s.data) == 0
-// }
+func (s *StrStack) IsEmpty() bool {
+	return len(s.data) == 0
+}
 func isDigit(b byte) bool {
     return b >= '0' && b <= '9'
 }
 func decodeString(s string) string {
-	// b3[a2[c]]
-	// 3 a 2 c 
-	// 
-
 	rs:=""
-	stackByte := NewByteStack()
-	// stackInt := NewIntStack()
-	i:=0
-	for i < len(s) {
-		if s[i] != '[' && s[i] != ']' {
-			stackByte.Push(s[i])
-		}else if s[i] == ']' {
-			count:= ""
-			substr:= ""
-			for !stackByte.IsEmpty() {
-				val, err:= stackByte.Peek()
-				if err == nil && val >='a' && val <= 'z' {
-					stackByte.Pop()
-					substr = string(val) + substr
-				}else {
-					break
-				}
+	countStack:= NewIntStack()
+	rsStack := NewStrStack()
+	index:=0
+	for index < len(s) {
+		if isDigit(s[index]) {
+			strCount:=""
+			for isDigit(s[index]) {
+				strCount+=string(s[index])
+				index++
 			}
-			for !stackByte.IsEmpty() {
-				val, err:= stackByte.Peek()
-				if err == nil && isDigit(val) {
-					stackByte.Pop()
-					count = string(val) + count
-				}else {
-					break
-				}
+			if strCount != "" {
+				count, _ := strconv.Atoi(strCount)
+				countStack.Push(count)
 			}
-			if count != "" {
-				val, err := strconv.Atoi(count)
-				if err == nil {
-					for i:=0; i < val; i++ {
-						rs+=substr
-					}
-					fmt.Println(rs) // cc
-				}
+		}else if s[index] == '[' {
+			rsStack.Push(rs)
+			rs = ""
+			index++
+		} else if s[index] == ']' {
+			tmpRs, _ := rsStack.Pop()
+			repeatTime, _ := countStack.Pop()
+			for i:=0; i < repeatTime; i++ {
+				tmpRs+=rs
 			}
+			rs = tmpRs
+			index++
+		} else {
+			rs+=string(s[index])
+			index++
 		}
-		i++
 
 	}
 	return rs

@@ -28,7 +28,17 @@ func main() {
 	// fmt.Println(closeStrings("abbzzca", "babzzcz"))
 	// fmt.Println(removeStars("leet**cod*e"))
 	// fmt.Println(asteroidCollision([]int{-2, -1, 1 , 2}))
-	fmt.Println(decodeString("3[a2[c]]"))
+	// fmt.Println(decodeString("3[a2[c]]"))
 
-	// 3 a 2 c
+	obj:=Constructor()
+	fmt.Println(obj.Ping(1))
+	fmt.Println(obj.Ping(100))
+	fmt.Println(obj.Ping(3000))
+	fmt.Println(obj.Ping(3001))
+	fmt.Println(obj.Ping(3002))
+	fmt.Println(obj.Ping(3004))
+
+
+
+
 }
