@@ -38,7 +38,7 @@ func main() {
 	// fmt.Println(obj.Ping(3002))
 	// fmt.Println(obj.Ping(3004))
 
-	fmt.Println(predictPartyVictory("DDRRRR"))
+	fmt.Println(predictPartyVictory("DRDRR"))
 
 
 }
