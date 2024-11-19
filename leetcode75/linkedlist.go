@@ -125,15 +125,13 @@ func reverseList(head *ListNode) *ListNode {
 	}
 	current:= head.Next
 	head.Next = nil
-	for current.Next != nil {
+	for current != nil {
 		tmp:=current.Next
 		current.Next = head
 		head = current
 		current = tmp
 	}
-	current.Next = head
-	return current
-
+	return head
 }
 
 /*
@@ -172,5 +170,28 @@ The number of nodes in the list is an even integer in the range [2, 105].
 1 <= Node.val <= 105
 */
 func pairSum(head *ListNode) int {
-    
+	slow, fast := head, head.Next
+	rs := 0
+	for fast != nil && fast.Next != nil  {
+		fast = fast.Next.Next
+		slow = slow.Next
+	}
+	
+	startRevert := slow.Next
+	current := startRevert.Next
+	startRevert.Next = nil 
+	for current != nil {
+		tmp:=current.Next
+		current.Next=startRevert
+		startRevert = current
+		current = tmp
+	}
+	for startRevert != nil {
+		if rs < startRevert.Val + head.Val {
+			rs = startRevert.Val + head.Val
+		}
+		startRevert = startRevert.Next
+		head = head.Next
+	}
+	return rs
 }
