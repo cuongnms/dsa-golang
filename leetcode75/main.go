@@ -54,6 +54,9 @@ func main() {
 	node5.Next = node6
 	node6.Next = node7
 	// deleteMiddle(node1)
-	oddEvenList(node1)
-	node1.Print()
+	// oddEvenList(node1)
+	node:= reverseList(node1)
+	// fmt.Println(node.Val)
+	// fmt.Println(node.Next.Val)
+	node.Print()
 }
