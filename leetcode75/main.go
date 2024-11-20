@@ -44,7 +44,7 @@ func main() {
 	node2:=&ListNode{Val: 1, Next: nil}
 	node3:=&ListNode{Val: 2, Next: nil}
 	node4:=&ListNode{Val: 3, Next: nil}
-	node5:=&ListNode{Val: 7, Next: nil}
+	node5:=&ListNode{Val: 4, Next: nil}
 	node6:=&ListNode{Val: 5, Next: nil}
 	// node7:=&ListNode{Val: 6, Next: nil}
 	node1.Next = node2
@@ -56,5 +56,24 @@ func main() {
 	// deleteMiddle(node1)
 	// oddEvenList(node1)
 	// node:= reverseList(node1)
-	fmt.Println(pairSum(node1))
+	// fmt.Println(pairSum(node1))
+
+	tnode1:=&TreeNode{Val: 1, Left: nil, Right: nil}
+	tnode2:=&TreeNode{Val: 2, Left: nil, Right: nil}
+	tnode3:=&TreeNode{Val: 3, Left: nil, Right: nil}
+	tnode4:=&TreeNode{Val: 4, Left: nil, Right: nil}
+	tnode5:=&TreeNode{Val: 5, Left: nil, Right: nil}
+	tnode6:=&TreeNode{Val: 6, Left: nil, Right: nil}
+	tnode7:=&TreeNode{Val: 7, Left: nil, Right: nil}
+	tnode1.Left = tnode2
+	tnode1.Right = tnode3
+	tnode3.Left = tnode4
+	tnode3.Right = tnode5
+	// tnode2.Right = tnode6
+	// tnode2.Left = tnode7
+	tnode4.Left = tnode6
+	tnode6.Left = tnode7
+	// fmt.Println(maxDepth(tnode1))
+	fmt.Println(maxDepthIter(tnode1))
+
 }
