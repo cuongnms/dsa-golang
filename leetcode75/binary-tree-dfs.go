@@ -138,6 +138,7 @@ func leafSimilar(root1 *TreeNode, root2 *TreeNode) bool {
 	}
 }
 
+// solution 1: travel all and compare the result
 func dfs(root *TreeNode) []int {
 	if root == nil {
 		return []int{}
@@ -151,6 +152,7 @@ func dfs(root *TreeNode) []int {
 	return append(left, right...)
 }
 
+// solution 2: compare node by node in 2 trees.
 func getLeaf(tree []*TreeNode) ([]*TreeNode, int) {
 	for {
 		node:= tree[len(tree)-1]
@@ -168,3 +170,93 @@ func getLeaf(tree []*TreeNode) ([]*TreeNode, int) {
 }
 
 
+/*
+Given a binary tree root, a node X in the tree is named good if in the path from root to X there are no nodes with a value greater than X.
+Return the number of good nodes in the binary tree.
+
+Example 1:
+
+Input: root = [3,1,4,3,null,1,5]
+Output: 4
+Explanation: Nodes in blue are good.
+Root Node (3) is always a good node.
+Node 4 -> (3,4) is the maximum value in the path starting from the root.
+Node 5 -> (3,4,5) is the maximum value in the path
+Node 3 -> (3,1,3) is the maximum value in the path.
+Example 2:
+
+Input: root = [3,3,null,4,2]
+Output: 3
+Explanation: Node 2 -> (3, 3, 2) is not good, because "3" is higher than it.
+Example 3:
+
+Input: root = [1]
+Output: 1
+Explanation: Root is considered as good.
+ 
+Constraints:
+
+The number of nodes in the binary tree is in the range [1, 10^5].
+Each node's value is between [-10^4, 10^4].
+*/
+func goodNodes(root *TreeNode) int {
+	rs := countRercusive(root, root.Val)
+	return rs
+}
+
+func countRercusive(root *TreeNode, max int) int {
+	if root == nil {
+		return 0
+	}
+	count :=0
+	if max <= root.Val {
+		max = root.Val
+		count++
+	}
+	return count + countRercusive(root.Left, max) + countRercusive(root.Right, max)
+}
+
+
+/*
+Given the root of a binary tree and an integer targetSum, return the number of paths where the sum of the values along the path equals targetSum.
+
+The path does not need to start or end at the root or a leaf, but it must go downwards (i.e., traveling only from parent nodes to child nodes).
+
+Example 1:
+
+
+Input: root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8
+Output: 3
+Explanation: The paths that sum to 8 are shown.
+Example 2:
+
+Input: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
+Output: 3
+ 
+
+Constraints:
+
+The number of nodes in the tree is in the range [0, 1000].
+-109 <= Node.val <= 109
+-1000 <= targetSum <= 1000
+*/
+func pathSum(root *TreeNode, targetSum int) int {
+    if root == nil {
+		return 0
+	}
+	return pathSumRecursive(root, targetSum - root.Val) + pathSum(root.Right, targetSum) + pathSum(root.Left, targetSum)
+	
+}
+
+func pathSumRecursive(root *TreeNode, targetSum int) int {
+	if root == nil {
+		return 0
+	}
+	
+	if root.Val == targetSum {
+		return 1
+	}else {
+		return pathSumRecursive(root.Left, targetSum - root.Val) + pathSumRecursive(root.Right, targetSum - root.Val)
+	}
+
+}
