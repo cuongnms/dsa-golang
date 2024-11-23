@@ -84,7 +84,7 @@ func oddEvenList(head *ListNode) *ListNode {
 	}
 	evenNode := head
 	oddNode := head.Next
-	
+
 	second := head.Next
 	for evenNode.Next != nil && oddNode.Next != nil {
 		evenNode.Next = oddNode.Next
@@ -116,17 +116,17 @@ Constraints:
 
 The number of nodes in the list is the range [0, 5000].
 -5000 <= Node.val <= 5000
- 
+
 Follow up: A linked list can be reversed either iteratively or recursively. Could you implement both?
 */
 func reverseList(head *ListNode) *ListNode {
-    if head== nil || head.Next == nil {
+	if head == nil || head.Next == nil {
 		return head
 	}
-	current:= head.Next
+	current := head.Next
 	head.Next = nil
 	for current != nil {
-		tmp:=current.Next
+		tmp := current.Next
 		current.Next = head
 		head = current
 		current = tmp
@@ -147,7 +147,7 @@ Output: 6
 Explanation:
 Nodes 0 and 1 are the twins of nodes 3 and 2, respectively. All have twin sum = 6.
 There are no other nodes with twins in the linked list.
-Thus, the maximum twin sum of the linked list is 6. 
+Thus, the maximum twin sum of the linked list is 6.
 Example 2:
 
 Input: head = [4,2,2,3]
@@ -156,7 +156,7 @@ Explanation:
 The nodes with twins present in this linked list are:
 - Node 0 is the twin of node 3 having a twin sum of 4 + 3 = 7.
 - Node 1 is the twin of node 2 having a twin sum of 2 + 2 = 4.
-Thus, the maximum twin sum of the linked list is max(7, 4) = 7. 
+Thus, the maximum twin sum of the linked list is max(7, 4) = 7.
 Example 3:
 
 Input: head = [1,100000]
@@ -172,26 +172,247 @@ The number of nodes in the list is an even integer in the range [2, 105].
 func pairSum(head *ListNode) int {
 	slow, fast := head, head.Next
 	rs := 0
-	for fast != nil && fast.Next != nil  {
+	for fast != nil && fast.Next != nil {
 		fast = fast.Next.Next
 		slow = slow.Next
 	}
-	
+
 	startRevert := slow.Next
 	current := startRevert.Next
-	startRevert.Next = nil 
+	startRevert.Next = nil
 	for current != nil {
-		tmp:=current.Next
-		current.Next=startRevert
+		tmp := current.Next
+		current.Next = startRevert
 		startRevert = current
 		current = tmp
 	}
 	for startRevert != nil {
-		if rs < startRevert.Val + head.Val {
+		if rs < startRevert.Val+head.Val {
 			rs = startRevert.Val + head.Val
 		}
 		startRevert = startRevert.Next
 		head = head.Next
 	}
 	return rs
+}
+
+/*
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
+
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+Example 1:
+
+Input: l1 = [2,4,3], l2 = [5,6,4]
+Output: [7,0,8]
+Explanation: 342 + 465 = 807.
+Example 2:
+
+Input: l1 = [0], l2 = [0]
+Output: [0]
+Example 3:
+
+Input: l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
+Output: [8,9,9,9,0,0,0,1]
+
+Constraints:
+
+The number of nodes in each linked list is in the range [1, 100].
+0 <= Node.val <= 9
+It is guaranteed that the list represents a number that does not have leading zeros.
+*/
+func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
+	head := addTwoNumbersRecur(l1, l2, 0)
+
+	return head
+}
+
+func addTwoNumbersRecur(l1 *ListNode, l2 *ListNode, carry int) *ListNode {
+	if l1 == nil && l2 == nil && carry == 0{
+		return nil
+	}
+
+	val:= carry
+	if l1 != nil {
+		val += l1.Val
+	}
+	if l2!= nil {
+		val += l2.Val
+	}
+	node:=&ListNode{Val: val%10, Next: nil}
+	var nextL1 *ListNode
+	var nextL2 *ListNode
+	if l1 == nil {
+		nextL1 = nil
+	}else {
+		nextL1 = l1.Next
+	}
+	if l2 == nil {
+		nextL2 = nil
+	}else {
+		nextL2 = l2.Next
+	}
+	node.Next = addTwoNumbersRecur(nextL1, nextL2, val/10)
+	return node
+}
+
+
+/*
+Given a linked list, swap every two adjacent nodes and return its head. 
+You must solve the problem without modifying the values in the list's nodes (i.e., only nodes themselves may be changed.)
+ 
+Example 1:
+
+Input: head = [1,2,3,4]
+
+Output: [2,1,4,3]
+
+Explanation:
+
+Example 2:
+
+Input: head = []
+
+Output: []
+
+Example 3:
+
+Input: head = [1]
+
+Output: [1]
+
+Example 4:
+
+Input: head = [1,2,3]
+
+Output: [2,1,3]
+
+Constraints:
+
+The number of nodes in the list is in the range [0, 100].
+0 <= Node.val <= 100
+*/
+func swapPairs(head *ListNode) *ListNode {
+    if head == nil || head.Next == nil {
+		return head
+	}
+
+	// 1 -> 2 -> 3
+
+	// 1 <- 2 -> 3
+	// |______|
+
+	firstNode := head
+	thirdNode := head.Next.Next
+	head = head.Next
+	head.Next = firstNode
+	head.Next.Next = swapPairs(thirdNode)	
+
+	return head
+
+}
+
+/*
+Implement pow(x, n), which calculates x raised to the power n (i.e., xn).
+
+Example 1:
+
+Input: x = 2.00000, n = 10
+Output: 1024.00000
+Example 2:
+
+Input: x = 2.10000, n = 3
+Output: 9.26100
+Example 3:
+
+Input: x = 2.00000, n = -2
+Output: 0.25000
+Explanation: 2-2 = 1/22 = 1/4 = 0.25
+ 
+
+Constraints:
+
+-100.0 < x < 100.0
+-231 <= n <= 231-1
+n is an integer.
+Either x is not zero or n > 0.
+-104 <= xn <= 104
+*/
+func myPow(x float64, n int) float64 {
+	if n==1 {
+		return x
+	}
+    if n == -1 {
+        return 1/x
+    }
+
+    if n < -1 {
+		if n%2 == 0 {
+			return myPow(x*x, n/2)
+
+		}else {
+			return myPow(x*x, n/2)* (1/x)
+		}
+    } else if n > 1 {
+		if n%2 == 0 {
+			return myPow(x*x, n/2)
+
+		}else {
+			return myPow(x*x, n/2)* x
+		}
+	}else {
+		return 1
+	}
+}
+
+/*
+You are given the heads of two sorted linked lists list1 and list2.
+Merge the two lists into one sorted list. The list should be made by splicing together the nodes of the first two lists.
+Return the head of the merged linked list.
+
+Example 1:
+
+Input: list1 = [1,2,4], list2 = [1,3,4]
+Output: [1,1,2,3,4,4]
+Example 2:
+
+Input: list1 = [], list2 = []
+Output: []
+Example 3:
+
+Input: list1 = [], list2 = [0]
+Output: [0]
+ 
+
+Constraints:
+
+The number of nodes in both lists is in the range [0, 50].
+-100 <= Node.val <= 100
+Both list1 and list2 are sorted in non-decreasing order.
+*/
+func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
+	if list1 == nil && list2 == nil {
+		return nil
+	}
+	if list1 != nil && list2 == nil {
+		return list1
+	}
+	if list1 == nil && list2 != nil {
+		return list2
+	}
+	var firstNode *ListNode
+	var firstVal int
+	if list1.Val < list2.Val {
+		firstVal = list1.Val
+		firstNode = &ListNode{Val: firstVal, Next: nil}
+		firstNode.Next = mergeTwoLists(list1.Next, list2)
+
+	}else {
+		firstVal = list2.Val
+		firstNode = &ListNode{Val: firstVal, Next: nil}
+		firstNode.Next = mergeTwoLists(list1, list2.Next)
+	}
+
+	return firstNode
+
 }
