@@ -88,8 +88,8 @@ func main() {
 	//2 3 4 5
 	// addTwoNumbers(node1, node5).Print()
 	// swapPairs(node1).Print()
-	fmt.Println(myPow(2.0000, -2))
-
+	// fmt.Println(myPow(2.0000, -2))
+	reverseListRecursive(node1).Print()
 }
 
 

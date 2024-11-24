@@ -119,6 +119,7 @@ The number of nodes in the list is the range [0, 5000].
 
 Follow up: A linked list can be reversed either iteratively or recursively. Could you implement both?
 */
+
 func reverseList(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil {
 		return head
@@ -133,6 +134,23 @@ func reverseList(head *ListNode) *ListNode {
 	}
 	return head
 }
+
+// 1 -> 2 -> 3 -> 4
+func reverseListRecursive(head *ListNode) *ListNode {
+	return recursive(nil, head)
+}
+
+func recursive(prev *ListNode, current *ListNode) *ListNode {
+	if current == nil {
+		return prev
+	}
+
+	nextNode := current.Next
+	current.Next = prev
+	return recursive(current, nextNode)
+}
+
+
 
 /*
 In a linked list of size n, where n is even, the ith node (0-indexed) of the linked list is known as the twin of the (n-1-i)th node, if 0 <= i <= (n / 2) - 1.
@@ -416,3 +434,32 @@ func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
 	return firstNode
 
 }
+
+
+/*
+You are given the head of a singly linked-list. The list can be represented as:
+
+L0 → L1 → … → Ln - 1 → Ln
+Reorder the list to be on the following form:
+
+L0 → Ln → L1 → Ln - 1 → L2 → Ln - 2 → …
+You may not modify the values in the list's nodes. Only nodes themselves may be changed.
+
+Example 1:
+
+Input: head = [1,2,3,4]
+Output: [1,4,2,3]
+Example 2:
+
+Input: head = [1,2,3,4,5]
+Output: [1,5,2,4,3]
+ 
+Constraints:
+
+The number of nodes in the list is in the range [1, 5 * 104].
+1 <= Node.val <= 1000
+*/
+func reorderList(head *ListNode)  {
+    
+}
+
