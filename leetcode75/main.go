@@ -89,7 +89,8 @@ func main() {
 	// addTwoNumbers(node1, node5).Print()
 	// swapPairs(node1).Print()
 	// fmt.Println(myPow(2.0000, -2))
-	reverseListRecursive(node1).Print()
+	// reverseListRecursive(node1).Print()
+	reorderList(node1)
 }
 
 

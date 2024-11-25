@@ -137,7 +137,8 @@ func reverseList(head *ListNode) *ListNode {
 
 // 1 -> 2 -> 3 -> 4
 func reverseListRecursive(head *ListNode) *ListNode {
-	return recursive(nil, head)
+	tmp:= recursive(nil, head)
+	return tmp
 }
 
 func recursive(prev *ListNode, current *ListNode) *ListNode {
@@ -147,7 +148,8 @@ func recursive(prev *ListNode, current *ListNode) *ListNode {
 
 	nextNode := current.Next
 	current.Next = prev
-	return recursive(current, nextNode)
+	tmp:=recursive(current, nextNode)
+	return tmp
 }
 
 
@@ -460,6 +462,30 @@ The number of nodes in the list is in the range [1, 5 * 104].
 1 <= Node.val <= 1000
 */
 func reorderList(head *ListNode)  {
-    
+	if head == nil || head.Next == nil {
+        return
+    }
+    mid:=head
+	fast:=head
+	prevMid:=mid
+	for fast!= nil && fast.Next != nil {
+		prevMid = mid
+		mid = mid.Next
+		fast = fast.Next.Next
+	}
+	prevMid.Next = recursive(nil, mid)
+	
+
+	currentHead := head
+	currentMid:= prevMid.Next
+
+	for currentHead != prevMid {
+		prevMid.Next = currentMid.Next
+		currentMid.Next = currentHead.Next
+		currentHead.Next = currentMid
+		currentHead = currentMid.Next
+		currentMid = prevMid.Next
+	}
+
 }
 
