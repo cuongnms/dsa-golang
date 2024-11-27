@@ -627,21 +627,10 @@ Example 1:
 Input: n = 9
 Output: 6
 Explanation:
-arr = [1, 2, 3, 4, 5, 6, 7, 8, 9] i = 0 
-=> [2,3,4,5,6,7,8,9] i = 1
-=> [2,4,5,6,7,8,9] i = 2
-=> [2,4,6,7,8,9] i = 3
-=> [2,4,6,8,9] i = 4
-=> [2,4,6,8] i = 5
-
-
-
-arr = [2, 4, 6, 8]
-=> [2,]
-
-
-arr = [2, 6]
-arr = [6]
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9] 
+arr = [2, 4, 6, 8] = 2[1,2,3,4]
+arr = [2, 6] = 2[1,3]
+arr = [6] = 6[1]
 Example 2:
 
 Input: n = 1
@@ -654,11 +643,24 @@ Constraints:
 */
 
 func lastRemaining(n int) int {
+	return eliminate(9, true)
+}
+
+func eliminate(n int, isLeftToRight bool) int {
 	if n == 1 {
 		return 1
 	}
 
-	return 
+	if isLeftToRight {
+        return 2 * eliminate(n/2, false)
+    } else {
+		if n%2 == 0 {
+			return 2 * eliminate(n/2, true) - 1 
+		}else {
+			return 2 * eliminate(n/2, true)
+		}
+    }
 }
+
 
 

@@ -94,7 +94,8 @@ func main() {
 	// removeElements(node1, 4).Print()
 	// reverseByHeadRecursive(nil, node1)
 	// reverseByTailRecursive(nil, node1).Print()
-	fmt.Println(isPalindrome(node1))
+	// fmt.Println(isPalindrome(node1))
+	fmt.Println(lastRemaining(9))
 }
 
 
