@@ -137,20 +137,10 @@ func reverseList(head *ListNode) *ListNode {
 
 // 1 -> 2 -> 3 -> 4
 func reverseListRecursive(head *ListNode) *ListNode {
-	tmp:= recursive(nil, head)
+	tmp:= reverseByTailRecursive(nil, head)
 	return tmp
 }
 
-func recursive(prev *ListNode, current *ListNode) *ListNode {
-	if current == nil {
-		return prev
-	}
-
-	nextNode := current.Next
-	current.Next = prev
-	tmp:=recursive(current, nextNode)
-	return tmp
-}
 
 
 
@@ -473,7 +463,7 @@ func reorderList(head *ListNode)  {
 		mid = mid.Next
 		fast = fast.Next.Next
 	}
-	prevMid.Next = recursive(nil, mid)
+	prevMid.Next = reverseByTailRecursive(nil, mid)
 	
 
 	currentHead := head
@@ -486,6 +476,189 @@ func reorderList(head *ListNode)  {
 		currentHead = currentMid.Next
 		currentMid = prevMid.Next
 	}
+}
+
+/*
+Given the head of a linked list and an integer val, remove all the nodes of the linked list that has Node.val == val, and return the new head.
+
+Example 1:
+Input: head = [1,2,6,3,4,5,6], val = 6
+Output: [1,2,3,4,5]
+Example 2:
+
+Input: head = [], val = 1
+Output: []
+Example 3:
+
+Input: head = [7,7,7,7], val = 7
+Output: []
+ 
+Constraints:
+The number of nodes in the list is in the range [0, 104].
+1 <= Node.val <= 50
+0 <= val <= 50
+*/
+func removeElements(head *ListNode, val int) *ListNode {
+    if head == nil {
+		return nil
+	}
+
+	head.Next = removeElements(head.Next, val)
+	if head.Val ==val {
+		return head.Next
+	}else {
+		return head
+	}
 
 }
+
+
+/*
+Given the head of a singly linked list, return true if it is a 
+palindrome or false otherwise.
+
+Example 1:
+
+Input: head = [1,2,2,1]
+Output: true
+Example 2:
+
+Input: head = [1,2]
+Output: false
+ 
+Constraints:
+
+The number of nodes in the list is in the range [1, 105].
+0 <= Node.val <= 9
+ 
+Follow up: Could you do it in O(n) time and O(1) space?
+*/
+func isPalindrome(head *ListNode) bool {
+    if head == nil || head.Next == nil {
+		return true
+	}
+	slow := head
+	fast := head
+	for fast != nil && fast.Next != nil {
+		slow= slow.Next
+		fast = fast.Next.Next
+	}
+
+	mid:= reverseByTailRecursive(nil, slow)
+	for head != slow {
+		if head.Val != mid.Val {
+			return false
+		}
+		head = head.Next
+		mid = mid.Next
+	}
+	return true
+
+}
+
+func reverseByHeadRecursive(prev *ListNode, current *ListNode) *ListNode {
+	// this head recursive method will return the old head (first node in the old list)
+	if current == nil {
+		return prev
+	}
+	// if current.Next != nil {
+	// 	fmt.Println("before recursive: currentVal = ", current.Val, " next: ", current.Next.Val)
+	// }else {
+	// 	fmt.Println("before recursive: currentVal = ", current.Val, " next: nil")
+	// }
+
+	// fmt.Println("----------------------")
+
+	current = reverseByHeadRecursive(current, current.Next) // current = re(4, nil) => 4
+	// if current.Next != nil {
+	// 	fmt.Println("after recursive: currentVal = ", current.Val, " next: ", current.Next.Val)
+	// }else {
+	// 	fmt.Println("after recursive: currentVal = ", current.Val, " next: nil")
+	// }
+	current.Next = prev
+	// if current.Next != nil {
+	// 	fmt.Println("after redirect: currentVal = ", current.Val, " next: ", current.Next.Val)
+	// }else {
+	// 	fmt.Println("after redirect: currentVal = ", current.Val, " next: nil")
+	// }
+
+	// fmt.Println("----------------------")
+
+	return prev
+}
+
+func reverseByTailRecursive(prev *ListNode, current *ListNode) *ListNode {
+	if current == nil {
+		return prev
+	}
+	// if current.Next != nil {
+	// 	fmt.Println("before redirect: currentVal = ", current.Val, " next: ", current.Next.Val)
+	// }else {
+	// 	fmt.Println("before redirect: currentVal = ", current.Val, " next: nil")
+	// }
+	// fmt.Println("======================")
+
+	
+
+	nextNode:=current.Next
+	current.Next = prev
+	
+	// if current.Next != nil {
+	// 	fmt.Println("after redirect: currentVal = ", current.Val, " next: ", current.Next.Val)
+	// }else {
+	// 	fmt.Println("before redirect: currentVal = ", current.Val, " next: nil")
+	// }
+
+	current = reverseByTailRecursive(current, nextNode)
+	return current
+}
+
+
+/*
+You have a list arr of all integers in the range [1, n] sorted in a strictly increasing order. Apply the following algorithm on arr:
+
+Starting from left to right, remove the first number and every other number afterward until you reach the end of the list.
+Repeat the previous step again, but this time from right to left, remove the rightmost number and every other number from the remaining numbers.
+Keep repeating the steps again, alternating left to right and right to left, until a single number remains.
+Given the integer n, return the last number that remains in arr.
+
+Example 1:
+
+Input: n = 9
+Output: 6
+Explanation:
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9] i = 0 
+=> [2,3,4,5,6,7,8,9] i = 1
+=> [2,4,5,6,7,8,9] i = 2
+=> [2,4,6,7,8,9] i = 3
+=> [2,4,6,8,9] i = 4
+=> [2,4,6,8] i = 5
+
+
+
+arr = [2, 4, 6, 8]
+=> [2,]
+
+
+arr = [2, 6]
+arr = [6]
+Example 2:
+
+Input: n = 1
+Output: 1
+ 
+
+Constraints:
+
+1 <= n <= 109
+*/
+
+func lastRemaining(n int) int {
+	if n == 1 {
+		return 1
+	}
+
+	return 
+}
+
 

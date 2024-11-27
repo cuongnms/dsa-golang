@@ -90,7 +90,11 @@ func main() {
 	// swapPairs(node1).Print()
 	// fmt.Println(myPow(2.0000, -2))
 	// reverseListRecursive(node1).Print()
-	reorderList(node1)
+	// reorderList(node1)
+	// removeElements(node1, 4).Print()
+	// reverseByHeadRecursive(nil, node1)
+	// reverseByTailRecursive(nil, node1).Print()
+	fmt.Println(isPalindrome(node1))
 }
 
 
