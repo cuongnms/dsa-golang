@@ -95,7 +95,8 @@ func main() {
 	// reverseByHeadRecursive(nil, node1)
 	// reverseByTailRecursive(nil, node1).Print()
 	// fmt.Println(isPalindrome(node1))
-	fmt.Println(lastRemaining(9))
+	// fmt.Println(lastRemaining(9))
+	fmt.Println(predictTheWinner([]int{2,4,55,6,8}))
 }
 
 
