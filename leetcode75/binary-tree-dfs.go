@@ -118,8 +118,8 @@ The number of nodes in each tree will be in the range [1, 200].
 Both of the given trees will have values in the range [0, 200].
 */
 func leafSimilar(root1 *TreeNode, root2 *TreeNode) bool {
-	tree1 := make([]*TreeNode,0)
-	tree2 := make([]*TreeNode,0)
+	tree1 := make([]*TreeNode, 0)
+	tree2 := make([]*TreeNode, 0)
 	tree1 = append(tree1, root1)
 	tree2 = append(tree2, root2)
 	for len(tree1) > 0 && len(tree2) > 0 {
@@ -133,7 +133,7 @@ func leafSimilar(root1 *TreeNode, root2 *TreeNode) bool {
 	}
 	if len(tree1) == 0 && len(tree2) == 0 {
 		return true
-	}else {
+	} else {
 		return false
 	}
 }
@@ -155,8 +155,8 @@ func dfs(root *TreeNode) []int {
 // solution 2: compare node by node in 2 trees.
 func getLeaf(tree []*TreeNode) ([]*TreeNode, int) {
 	for {
-		node:= tree[len(tree)-1]
-		tree = tree[0:len(tree)-1]
+		node := tree[len(tree)-1]
+		tree = tree[0 : len(tree)-1]
 		if node.Right != nil {
 			tree = append(tree, node.Right)
 		}
@@ -168,7 +168,6 @@ func getLeaf(tree []*TreeNode) ([]*TreeNode, int) {
 		}
 	}
 }
-
 
 /*
 Given a binary tree root, a node X in the tree is named good if in the path from root to X there are no nodes with a value greater than X.
@@ -193,7 +192,7 @@ Example 3:
 Input: root = [1]
 Output: 1
 Explanation: Root is considered as good.
- 
+
 Constraints:
 
 The number of nodes in the binary tree is in the range [1, 10^5].
@@ -208,14 +207,13 @@ func countRercusive(root *TreeNode, max int) int {
 	if root == nil {
 		return 0
 	}
-	count :=0
+	count := 0
 	if max <= root.Val {
 		max = root.Val
 		count++
 	}
 	return count + countRercusive(root.Left, max) + countRercusive(root.Right, max)
 }
-
 
 /*
 Given the root of a binary tree and an integer targetSum, return the number of paths where the sum of the values along the path equals targetSum.
@@ -224,7 +222,6 @@ The path does not need to start or end at the root or a leaf, but it must go dow
 
 Example 1:
 
-
 Input: root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8
 Output: 3
 Explanation: The paths that sum to 8 are shown.
@@ -232,7 +229,6 @@ Example 2:
 
 Input: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
 Output: 3
- 
 
 Constraints:
 
@@ -241,22 +237,150 @@ The number of nodes in the tree is in the range [0, 1000].
 -1000 <= targetSum <= 1000
 */
 func pathSum(root *TreeNode, targetSum int) int {
-    if root == nil {
+	if root == nil {
 		return 0
 	}
-	return pathSumRecursive(root, targetSum - root.Val) + pathSum(root.Right, targetSum) + pathSum(root.Left, targetSum)
-	
+	return pathSumRecursive(root, targetSum-root.Val) + pathSum(root.Right, targetSum) + pathSum(root.Left, targetSum)
+
 }
 
 func pathSumRecursive(root *TreeNode, targetSum int) int {
 	if root == nil {
 		return 0
 	}
-	
+
 	if root.Val == targetSum {
 		return 1
-	}else {
-		return pathSumRecursive(root.Left, targetSum - root.Val) + pathSumRecursive(root.Right, targetSum - root.Val)
+	} else {
+		return pathSumRecursive(root.Left, targetSum-root.Val) + pathSumRecursive(root.Right, targetSum-root.Val)
 	}
 
+}
+
+/*
+You are given the root of a binary tree.
+
+A ZigZag path for a binary tree is defined as follow:
+
+Choose any node in the binary tree and a direction (right or left).
+If the current direction is right, move to the right child of the current node; otherwise, move to the left child.
+Change the direction from right to left or from left to right.
+Repeat the second and third steps until you can't move in the tree.
+Zigzag length is defined as the number of nodes visited - 1. (A single node has a length of 0).
+
+Return the longest ZigZag path contained in that tree.
+
+Example 1:
+
+Input: root = [1,null,1,1,1,null,null,1,1,null,1,null,null,null,1]
+Output: 3
+Explanation: Longest ZigZag path in blue nodes (right -> left -> right).
+Example 2:
+
+Input: root = [1,1,1,null,1,null,null,1,1,null,1]
+Output: 4
+Explanation: Longest ZigZag path in blue nodes (left -> right -> left -> right).
+Example 3:
+
+Input: root = [1]
+Output: 0
+
+Constraints:
+
+The number of nodes in the tree is in the range [1, 5 * 104].
+1 <= Node.val <= 100
+*/
+func longestZigZag(root *TreeNode) int {
+
+	maxLen :=0
+	var dfs func(root *TreeNode, rightLen, leftLen int)
+	dfs= func (root *TreeNode, rightLen, leftLen int) {
+		if root == nil {
+			return
+		}	
+
+		maxLen = max(maxLen, max(rightLen, leftLen))
+		dfs(root.Right, leftLen +1 , 0)
+		dfs(root.Left, 0, rightLen + 1)
+	
+	}
+
+	dfs(root, 0,0)
+	return maxLen
+}
+
+/*
+Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
+
+According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes p and q as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”
+
+ 
+
+Example 1:
+
+
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+Output: 3
+Explanation: The LCA of nodes 5 and 1 is 3.
+Example 2:
+
+
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
+Output: 5
+Explanation: The LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the LCA definition.
+Example 3:
+
+Input: root = [1,2], p = 1, q = 2
+Output: 1
+ 
+
+Constraints:
+
+The number of nodes in the tree is in the range [2, 105].
+-109 <= Node.val <= 109
+All Node.val are unique.
+p != q
+p and q will exist in the tree.
+*/
+
+func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	if root == nil || root == q || root == p {
+		return root
+	}	
+	
+	right := lowestCommonAncestor(root.Right, p, q)
+	left := lowestCommonAncestor(root.Left, p, q)
+
+	if right != nil && left != nil {
+		return root
+	}
+
+	if right == nil {
+		return left
+	}else {
+		return right
+	}
+
+}
+
+
+func findClosestAncestor(root *TreeNode, node *TreeNode) *TreeNode {
+	if root == nil || node == nil {
+		return nil
+	}
+
+	if root.Right != nil && root.Right.Val == node.Val {
+		return root
+	}
+	if root.Left != nil && root.Left.Val == node.Val {
+		return root
+	}
+
+	findRight := findClosestAncestor(root.Right, node)
+	if findRight != nil {
+		return findRight
+	}
+	return findClosestAncestor(root.Left, node)
+
+	
 }

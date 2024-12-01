@@ -96,7 +96,66 @@ func main() {
 	// reverseByTailRecursive(nil, node1).Print()
 	// fmt.Println(isPalindrome(node1))
 	// fmt.Println(lastRemaining(9))
-	fmt.Println(predictTheWinner([]int{2,4,55,6,8}))
+	// fmt.Println(predictTheWinner([]int{2,4,55,6,8}))
+
+	zig1:=&TreeNode{Val: 1, Left: nil, Right: nil}
+	zig2:=&TreeNode{Val: 2, Left: nil, Right: nil}
+	zig3:=&TreeNode{Val: 3, Left: nil, Right: nil}
+	zig4:=&TreeNode{Val: 4, Left: nil, Right: nil}
+	zig5:=&TreeNode{Val: 5, Left: nil, Right: nil}
+	zig6:=&TreeNode{Val: 6, Left: nil, Right: nil}
+	zig7:=&TreeNode{Val: 7, Left: nil, Right: nil}
+	zig8:=&TreeNode{Val: 8, Left: nil, Right: nil}
+	// zig9:=&TreeNode{Val: 9, Left: nil, Right: nil}
+	// zig10:=&TreeNode{Val: 10, Left: nil, Right: nil}
+	zig1.Right = zig2
+	zig2.Left = zig3
+	zig2.Right = zig4
+	zig4.Left = zig5
+	zig4.Right = zig6
+	zig5.Right = zig7
+	zig7.Right = zig8
+
+	values := []interface{}{
+		6, 9, 7, 3, nil, 2, 8, 5, 8, 9, 7, 3, 9, 9, 4, 2, 10, nil, 5, 4, 3, 10, 10, 9, 4, 1, 2, nil, nil, 6, 5, nil, nil, nil, nil, 9, nil, 9, 6, 5, nil, 5, nil, nil, 7, 7, 4, nil, 1, nil, nil, 3, 7, nil, 9, nil, nil, nil, nil, nil, nil, nil, nil, 9, 9, nil, nil, nil, 7, nil, nil, nil, nil, nil, nil, nil, nil, nil, 6, 8, 7, nil, nil, nil, 3, 10, nil, nil, nil, nil, nil, 1, nil, 1, 2,
+	}
+	root:=CreateTree(values)
+	fmt.Println(longestZigZag(root))
+
+	
 }
 
+
+func CreateTree(values []interface{}) *TreeNode {
+	if len(values) == 0 || values[0] == nil {
+		return nil
+	}
+
+	// Tạo gốc của cây
+	root := &TreeNode{Val: values[0].(int)}
+	queue := []*TreeNode{root}
+
+	index := 1 // Bắt đầu từ phần tử thứ 2 trong mảng
+	for len(queue) > 0 && index < len(values) {
+		// Lấy phần tử đầu tiên trong hàng đợi
+		current := queue[0]
+		queue = queue[1:]
+
+		// Gán con trái
+		if index < len(values) && values[index] != nil {
+			current.Left = &TreeNode{Val: values[index].(int)}
+			queue = append(queue, current.Left)
+		}
+		index++
+
+		// Gán con phải
+		if index < len(values) && values[index] != nil {
+			current.Right = &TreeNode{Val: values[index].(int)}
+			queue = append(queue, current.Right)
+		}
+		index++
+	}
+
+	return root
+}
 
