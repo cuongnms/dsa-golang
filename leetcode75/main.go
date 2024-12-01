@@ -117,11 +117,12 @@ func main() {
 	zig7.Right = zig8
 
 	values := []interface{}{
-		6, 9, 7, 3, nil, 2, 8, 5, 8, 9, 7, 3, 9, 9, 4, 2, 10, nil, 5, 4, 3, 10, 10, 9, 4, 1, 2, nil, nil, 6, 5, nil, nil, nil, nil, 9, nil, 9, 6, 5, nil, 5, nil, nil, 7, 7, 4, nil, 1, nil, nil, 3, 7, nil, 9, nil, nil, nil, nil, nil, nil, nil, nil, 9, 9, nil, nil, nil, 7, nil, nil, nil, nil, nil, nil, nil, nil, nil, 6, 8, 7, nil, nil, nil, 3, 10, nil, nil, nil, nil, nil, 1, nil, 1, 2,
+		1,2,3,nil,5,nil,4,
 	}
 	root:=CreateTree(values)
-	fmt.Println(longestZigZag(root))
-
+	// fmt.Println(longestZigZag(root))
+	// fmt.Println(rightSideView(root))
+	fmt.Println(rightSideViewRecursive(root))
 	
 }
 
