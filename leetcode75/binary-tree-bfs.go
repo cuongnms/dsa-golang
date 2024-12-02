@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 /*
 Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
@@ -76,10 +78,9 @@ func rightSideView(root *TreeNode) []int {
 
 }
 
-
 func rightSideViewRecursive(root *TreeNode) []int {
-	rs:=make([]int,0)
-	
+	rs := make([]int, 0)
+
 	var dfs func(root *TreeNode, depth int)
 
 	dfs = func(root *TreeNode, depth int) {
@@ -99,3 +100,86 @@ func rightSideViewRecursive(root *TreeNode) []int {
 	return rs
 }
 
+/*
+Given the root of a binary tree, the level of its root is 1, the level of its children is 2, and so on.
+Return the smallest level x such that the sum of all the values of nodes at level x is maximal.
+
+Example 1:
+
+Input: root = [1,7,0,7,-8,null,null]
+Output: 2
+Explanation:
+Level 1 sum = 1.
+Level 2 sum = 7 + 0 = 7.
+Level 3 sum = 7 + -8 = -1.
+So we return the level with the maximum sum which is level 2.
+Example 2:
+
+Input: root = [989,null,10250,98693,-89388,null,null,null,-32127]
+Output: 2
+
+Constraints:
+
+The number of nodes in the tree is in the range [1, 104].
+-105 <= Node.val <= 105
+*/
+
+func maxLevelSum(root *TreeNode) int {
+	rs := 1
+	q := make([]*TreeNode, 0)
+	q = append(q, root)
+	maxSum := root.Val
+	depth := 0
+	for len(q) > 0 {
+		sum := 0
+		for i := len(q); i > 0; i-- {
+			node := q[0]
+			q = q[1:]
+			sum+=node.Val
+			if node.Left != nil {
+				q = append(q, node.Left)
+			}
+			if node.Right != nil {
+				q = append(q, node.Right)
+			}
+		}
+		depth++
+		// if sum > max
+		if sum > maxSum {
+			maxSum = sum
+			rs = depth
+		}
+	}
+	return rs
+
+	// sumArr := make([]int, 0)
+	// var dfs func(root *TreeNode, depth int)
+
+	// dfs = func(root *TreeNode, depth int) {
+
+	// 	if root == nil {
+	// 		return
+	// 	}
+
+	// 	if len(sumArr) > depth {
+	// 		sumArr[depth] +=root.Val
+	// 	}else {
+	// 		sumArr = append(sumArr, root.Val)
+	// 	}
+
+	// 	dfs(root.Left, depth+1)
+	// 	dfs(root.Right, depth + 1)
+
+	// }
+
+	// dfs(root, 0)
+	// max:= sumArr[0]
+	// rs:=0
+	// for i, val:=range sumArr {
+	// 	if max < val {
+	// 		max = val
+	// 		rs = i
+	// 	}
+	// }
+	// return rs + 1
+}

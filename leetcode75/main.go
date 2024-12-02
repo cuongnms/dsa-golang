@@ -117,12 +117,13 @@ func main() {
 	zig7.Right = zig8
 
 	values := []interface{}{
-		1,2,3,nil,5,nil,4,
+		1,7,0,7,-8,nil,nil,
 	}
 	root:=CreateTree(values)
 	// fmt.Println(longestZigZag(root))
 	// fmt.Println(rightSideView(root))
-	fmt.Println(rightSideViewRecursive(root))
+	// fmt.Println(rightSideViewRecursive(root))
+	fmt.Println(maxLevelSum(root))
 	
 }
 
