@@ -117,13 +117,16 @@ func main() {
 	zig7.Right = zig8
 
 	values := []interface{}{
-		1,7,0,7,-8,nil,nil,
+		5,3,6,2,4,nil,7,
 	}
 	root:=CreateTree(values)
 	// fmt.Println(longestZigZag(root))
 	// fmt.Println(rightSideView(root))
 	// fmt.Println(rightSideViewRecursive(root))
-	fmt.Println(maxLevelSum(root))
+	// fmt.Println(maxLevelSum(root))
+	// fmt.Println(searchBST(root, 2))
+	// printTree(root)
+	printTree(deleteNode(root, 3))
 	
 }
 
@@ -161,3 +164,35 @@ func CreateTree(values []interface{}) *TreeNode {
 	return root
 }
 
+
+func printTree(root *TreeNode) {
+	if root == nil {
+		return
+	}
+	q:= make([]*TreeNode,0)
+	q = append(q, root)
+	for len(q) > 0 {
+		node:=q[0]
+		q=q[1:]
+		if node == nil {
+			fmt.Println("nil")
+		}else {
+			fmt.Println(node.Val)
+		}
+		if node != nil {
+			if node.Right == nil && node.Left == nil {
+				continue
+			}
+			if node.Left != nil {
+				q = append(q, node.Left)
+			}else {
+				q = append(q, nil)
+			}
+			if node.Right != nil {
+				q= append(q, node.Right)
+			}else {
+				q = append(q, nil)
+			}
+		}
+	}
+}
