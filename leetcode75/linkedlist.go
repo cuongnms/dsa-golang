@@ -1,9 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
-
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -12,18 +8,7 @@ import (
  * }
  */
 
-type ListNode struct {
-	Val  int
-	Next *ListNode
-}
 
-func (ll *ListNode) Print() {
-	current := ll
-	for current != nil {
-		fmt.Println(current.Val)
-		current = current.Next
-	}
-}
 
 func deleteMiddle(head *ListNode) *ListNode {
 	// count:=0

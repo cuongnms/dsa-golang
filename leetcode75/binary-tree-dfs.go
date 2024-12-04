@@ -1,8 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
 
 /*
 Given the root of a binary tree, return its maximum depth.
@@ -37,15 +34,6 @@ The number of nodes in the tree is in the range [0, 104].
  * }
 */
 
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
-}
-
-func (node *TreeNode) Print() {
-	fmt.Println(node.Val)
-}
 
 func maxDepth(root *TreeNode) int {
 

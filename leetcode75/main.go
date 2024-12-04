@@ -116,83 +116,17 @@ func main() {
 	zig5.Right = zig7
 	zig7.Right = zig8
 
-	values := []interface{}{
-		5,3,6,2,4,nil,7,
-	}
-	root:=CreateTree(values)
+	// values := []interface{}{
+	// 	5,3,6,2,4,nil,7,
+	// }
+	// root:=CreateTree(values)
 	// fmt.Println(longestZigZag(root))
 	// fmt.Println(rightSideView(root))
 	// fmt.Println(rightSideViewRecursive(root))
 	// fmt.Println(maxLevelSum(root))
 	// fmt.Println(searchBST(root, 2))
 	// printTree(root)
-	printTree(deleteNode(root, 3))
-	
+	// printTree(deleteNode(root, 3))
+	fmt.Println(canVisitAllRooms([][]int{{1,3},{3,0,1},{2},{0}}))	
 }
 
-
-func CreateTree(values []interface{}) *TreeNode {
-	if len(values) == 0 || values[0] == nil {
-		return nil
-	}
-
-	// Tạo gốc của cây
-	root := &TreeNode{Val: values[0].(int)}
-	queue := []*TreeNode{root}
-
-	index := 1 // Bắt đầu từ phần tử thứ 2 trong mảng
-	for len(queue) > 0 && index < len(values) {
-		// Lấy phần tử đầu tiên trong hàng đợi
-		current := queue[0]
-		queue = queue[1:]
-
-		// Gán con trái
-		if index < len(values) && values[index] != nil {
-			current.Left = &TreeNode{Val: values[index].(int)}
-			queue = append(queue, current.Left)
-		}
-		index++
-
-		// Gán con phải
-		if index < len(values) && values[index] != nil {
-			current.Right = &TreeNode{Val: values[index].(int)}
-			queue = append(queue, current.Right)
-		}
-		index++
-	}
-
-	return root
-}
-
-
-func printTree(root *TreeNode) {
-	if root == nil {
-		return
-	}
-	q:= make([]*TreeNode,0)
-	q = append(q, root)
-	for len(q) > 0 {
-		node:=q[0]
-		q=q[1:]
-		if node == nil {
-			fmt.Println("nil")
-		}else {
-			fmt.Println(node.Val)
-		}
-		if node != nil {
-			if node.Right == nil && node.Left == nil {
-				continue
-			}
-			if node.Left != nil {
-				q = append(q, node.Left)
-			}else {
-				q = append(q, nil)
-			}
-			if node.Right != nil {
-				q= append(q, node.Right)
-			}else {
-				q = append(q, nil)
-			}
-		}
-	}
-}
