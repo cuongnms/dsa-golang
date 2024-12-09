@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"slices"
 )
 
 // import "fmt"
@@ -159,31 +158,39 @@ ai != bi
 */
 
 func minReorder(n int, connections [][]int) int {
-	var dfs func(int)
-	count := 0
-	isPathVisit := make([]bool, len(connections))
-	dfs = func(city int) {
-		for index, val := range connections {
-			if isPathVisit[index] {
-				continue
-			}
-			if slices.Contains(val, city) {
-				isPathVisit[index] = true
-				if val[0] == city {
-					count++
-					dfs(val[1])
-				} else {
-					dfs(val[0])
+	adj:=make([][]int, 0)
+	for i:=0; i<n; i++ {
+		adj = append(adj, []int{})
+	}
+	for _, city:=range connections {
+		adj[city[0]] = append(adj[city[0]], city[1])
+		adj[city[1]] = append(adj[city[1]], -city[0])
+	}
+
+	isVisited:=make([]bool, n)
+	
+	var dfs func(from int) int
+	dfs = func(from int) int {
+		count:=0
+		isVisited[from] = true
+		for _, val:=range adj[from] {
+			if !isVisited[abs(val)] {
+				if val > 0 {
+					count+=dfs(abs(val)) + 1
+				}else {
+					count+=dfs(abs(val))
 				}
 			}
 		}
+		return count
 	}
 
-	dfs(0)
+	return dfs(0)
+}
 
-	return count
-
-
-
-
+func abs(a int) int {
+	if a < 0 {
+		return -a
+	}
+	return a
 }
