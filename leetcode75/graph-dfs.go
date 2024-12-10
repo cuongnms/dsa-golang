@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+	"slices"
+	// "slices"
+	// "slices"
 )
 
 // import "fmt"
@@ -158,27 +161,27 @@ ai != bi
 */
 
 func minReorder(n int, connections [][]int) int {
-	adj:=make([][]int, 0)
-	for i:=0; i<n; i++ {
+	adj := make([][]int, 0)
+	for i := 0; i < n; i++ {
 		adj = append(adj, []int{})
 	}
-	for _, city:=range connections {
+	for _, city := range connections {
 		adj[city[0]] = append(adj[city[0]], city[1])
 		adj[city[1]] = append(adj[city[1]], -city[0])
 	}
 
-	isVisited:=make([]bool, n)
-	
+	isVisited := make([]bool, n)
+
 	var dfs func(from int) int
 	dfs = func(from int) int {
-		count:=0
+		count := 0
 		isVisited[from] = true
-		for _, val:=range adj[from] {
+		for _, val := range adj[from] {
 			if !isVisited[abs(val)] {
 				if val > 0 {
-					count+=dfs(abs(val)) + 1
-				}else {
-					count+=dfs(abs(val))
+					count += dfs(abs(val)) + 1
+				} else {
+					count += dfs(abs(val))
 				}
 			}
 		}
@@ -193,4 +196,105 @@ func abs(a int) int {
 		return -a
 	}
 	return a
+}
+
+/*
+You are given an array of variable pairs equations and an array of real numbers values, where equations[i] = [Ai, Bi] and values[i] represent the equation Ai / Bi = values[i].
+Each Ai or Bi is a string that represents a single variable.
+
+You are also given some queries, where queries[j] = [Cj, Dj] represents the jth query where you must find the answer for Cj / Dj = ?.
+
+Return the answers to all queries. If a single answer cannot be determined, return -1.0.
+
+Note: The input is always valid. You may assume that evaluating the queries will not result in division by zero and that there is no contradiction.
+
+Note: The variables that do not occur in the list of equations are undefined, so the answer cannot be determined for them.
+
+Example 1:
+
+Input: equations = [["a","b"],["b","c"]], values = [2.0,3.0], queries = [["a","c"],["b","a"],["a","e"],["a","a"],["x","x"]]
+Output: [6.00000,0.50000,-1.00000,1.00000,-1.00000]
+Explanation:
+Given: a / b = 2.0, b / c = 3.0
+queries are: a / c = ?, b / a = ?, a / e = ?, a / a = ?, x / x = ?
+return: [6.0, 0.5, -1.0, 1.0, -1.0 ]
+note: x is undefined => -1.0
+
+Example 2:
+Input: equations = [["a","b"],["b","c"],["bc","cd"]], values = [1.5,2.5,5.0], queries = [["a","c"],["c","b"],["bc","cd"],["cd","bc"]]
+Output: [3.75000,0.40000,5.00000,0.20000]
+
+Example 3:
+Input: equations = [["a","b"]], values = [0.5], queries = [["a","b"],["b","a"],["a","c"],["x","y"]]
+Output: [0.50000,2.00000,-1.00000,-1.00000]
+
+
+Constraints:
+1 <= equations.length <= 20
+equations[i].length == 2
+1 <= Ai.length, Bi.length <= 5
+values.length == equations.length
+0.0 < values[i] <= 20.0
+1 <= queries.length <= 20
+queries[i].length == 2
+1 <= Cj.length, Dj.length <= 5
+Ai, Bi, Cj, Dj consist of lower case English letters and digits.
+
+"a":{"b": 2.0},
+"b":{"a": 0.5, "c": 3}
+"c":{"b": 0.333}
+
+*/
+
+func calcEquation(equations [][]string, values []float64, queries [][]string) []float64 {
+	graph := make(map[string]map[string]float64)
+	for index, val := range equations {
+		_, existOut := graph[val[0]]
+		if existOut {
+			graph[val[0]][val[1]] = values[index]
+		} else {
+			tmp:= make(map[string]float64)
+			tmp[val[1]] = values[index]
+			graph[val[0]] = tmp
+		}
+		_, existOut = graph[val[1]]
+		if existOut {
+			graph[val[1]][val[0]] = 1/(values[index])
+		} else {
+			tmp := make(map[string]float64)
+			tmp[val[0]] = 1/values[index]
+			graph[val[1]] = tmp
+		}
+	}
+	var dfs func(start, end string, visit []string) float64
+	dfs = func(start , end string, visit []string) float64 {
+		visit = append(visit, start)
+		if val, ok:= graph[start][end]; ok {
+			return val
+		}
+		for key, val := range graph[start] {
+			if !slices.Contains(visit, key) {
+				if dfsRs := dfs(key,end,visit); dfsRs != -1.0 {
+					return dfsRs*val
+				} 
+			}
+			
+		}
+		return -1.0
+	}
+
+	flRs:=make([]float64, 0)
+	for _, q:= range queries {
+		_, okStart:= graph[q[0]]
+		_, okEnd:= graph[q[1]]
+		visit:= make([]string, 0)
+
+		if !okEnd || !okStart {
+			flRs = append(flRs, -1.0)
+		}else {
+			flRs = append(flRs, dfs(q[0],q[1], visit))
+		}
+	}
+
+	return flRs
 }
