@@ -26,7 +26,6 @@ It is impossible to reach [2,3] from the entrance.
 Thus, the nearest exit is [0,2], which is 1 step away.
 Example 2:
 
-
 Input: maze = [["+","+","+"],[".",".","."],["+","+","+"]], entrance = [1,0]
 Output: 2
 Explanation: There is 1 exit in this maze at [1,2].
@@ -52,51 +51,52 @@ entrance.length == 2
 entrance will always be an empty cell.
 */
 func nearestExit(maze [][]byte, entrance []int) int {
-	width:= len(maze)-1
-	height:=len(maze[0])-1
-	graphMaze := make([][]int,0)
-	for row, valRow:= range maze {
-		for col, valCol:= range valRow {
-			if valCol == '.'{
-				graphMaze = append(graphMaze, []int{row,col})
-			}
-		}
-	}
-	fmt.Println(graphMaze)
-	queue:= make([][]int, 0)
+	fmt.Println()
+	width := len(maze) - 1
+	height := len(maze[0]) - 1
+	queue := make([][]int, 0)
 	queue = append(queue, entrance)
-	visited:=make([][]int,0)
-	count:=0
+	visited := make([][]bool, width+1)
+    for i := range visited {
+        visited[i] = make([]bool, height+1)
+    }
+	visited[entrance[0]][entrance[1]] = true
+
+	count := 0
 	for len(queue) > 0 {
-		for i:=len(queue)-1; i>=0;i-- {
-			checkPoint:= queue[0]
+		for i := len(queue) - 1; i >= 0; i-- {
+			checkPoint := queue[0]
 			queue = queue[1:]
-			visited = append(visited, checkPoint)
-			fmt.Println("check point: ", checkPoint)
-			if (checkPoint[0]==0 || checkPoint[1] ==0 || checkPoint[0] == height || checkPoint[0] == width || checkPoint[1] == height || checkPoint[1] == width) && (checkPoint[0] != entrance[0] || checkPoint[1] != entrance[1]) {
+			if (checkPoint[0] == 0 || checkPoint[1] == 0 || checkPoint[0] == width || checkPoint[1] == height) && (checkPoint[0] != entrance[0] || checkPoint[1] != entrance[1]) {
 				return count
 			}
-			for _, val:= range graphMaze {
-				if (val[0] == checkPoint[0] + 1 && val[1] == checkPoint[1]) || (val[0] == checkPoint[0] -1 && val[1] == checkPoint[1]) ||
-				(val[0] == checkPoint[0] && val[1] == checkPoint[1] - 1 ) || (val[0] == checkPoint[0]  && val[1] == checkPoint[1] + 1){
-					if !isVisited(visited, val) {
-						queue = append(queue, val)
-					}
-				}
+
+			if checkPoint[0]+1 <= width && maze[checkPoint[0]+1][checkPoint[1]] == '.' && !visited[checkPoint[0]+1][checkPoint[1]] {
+				visited[checkPoint[0]+1][checkPoint[1]] = true
+
+				queue = append(queue, []int{checkPoint[0] + 1, checkPoint[1]})
+			}
+
+			if checkPoint[0]-1 >= 0 && maze[checkPoint[0]-1][checkPoint[1]] == '.' && !visited[checkPoint[0]-1][checkPoint[1]] {
+				visited[checkPoint[0]-1][checkPoint[1]] = true
+
+				queue = append(queue, []int{checkPoint[0] - 1, checkPoint[1]})
+			}
+
+			if checkPoint[1]+1 <= height && maze[checkPoint[0]][checkPoint[1]+1] == '.' && !visited[checkPoint[0]][checkPoint[1]+1] {
+				visited[checkPoint[0]][checkPoint[1]+1] = true
+
+				queue = append(queue, []int{checkPoint[0], checkPoint[1] + 1})
+			}
+
+			if checkPoint[1]-1 >= 0 && maze[checkPoint[0]][checkPoint[1]-1] == '.' && !visited[checkPoint[0]][checkPoint[1]-1] {
+				visited[checkPoint[0]][checkPoint[1]-1] = true
+
+				queue = append(queue, []int{checkPoint[0], checkPoint[1] - 1})
 			}
 		}
 		count++
 	}
 
 	return -1
-}
-
-func isVisited(arr [][]int, checkValue []int) bool {
-	for _, val:=range arr {
-		if val[0] == checkValue[0] && val[1] == checkValue[1] {
-			return true
-		}
-	}
-
-	return false
 }
