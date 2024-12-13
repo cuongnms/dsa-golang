@@ -132,7 +132,15 @@ func main() {
 	// fmt.Println(minReorder(6, [][]int{{0,1},{1,3},{2,3},{4,0},{4,5}}))
 	// fmt.Println(calcEquation([][]string{{"x1","x2"},{"x2","x3"},{"x3","x4"},{"x4","x5"}}, []float64{3.0,4.0,5.0,6.0}, [][]string{{"x2","x4"}}))
 	// fmt.Println(nearestExit([][]byte{{'+','.','+','+','+','+','+'},{'+','.','+','.','.','.','+'},{'+','.','+','.','+','.','+'},{'+','.','.','.','+','.','+'},{'+','+','+','+','+','.','+'}}, []int{0,1}))
-	fmt.Println(orangesRotting([][]int{{2,1,1},{1,1,0},{0,1,1}}))
+	// fmt.Println(orangesRotting([][]int{{2,1,1},{1,1,0},{0,1,1}}))
+	// b:=NewBinaryHeap(10)
+	// b.Insert(5)
+	// b.Insert(2)
+	// b.Insert(6)
+	// b.Insert(4)
+	// b.Insert(9)
+	// fmt.Println(b.arr)
+	fmt.Println(findKthLargest([]int{3,2,3,1,2,4,5,5,6}, 4))
 
 
 }
