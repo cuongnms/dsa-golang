@@ -35,7 +35,7 @@ type RecentCounter struct {
 	queue []int
 }
 
-func Constructor() RecentCounter {
+func RecentCounterConstructor() RecentCounter {
 	return RecentCounter{}
 }
 
