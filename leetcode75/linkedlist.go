@@ -722,3 +722,11 @@ func max(a,b int) int {
 		return a
 	}
 }
+
+func maxInt64(a,b int64) int64 {
+	if a<b {
+		return b
+	}else {
+		return a
+	}
+}

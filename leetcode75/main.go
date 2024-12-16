@@ -141,17 +141,17 @@ func main() {
 	// b.Insert(9)
 	// fmt.Println(b.arr)
 	// fmt.Println(findKthLargest([]int{3,2,3,1,2,4,5,5,6}, 4))
-	smallestInfiniteSet:=SmallestInfiniteSetConstructor();
-	smallestInfiniteSet.AddBack(2);    // 2 is already in the set, so no change is made.
-	fmt.Println(smallestInfiniteSet.PopSmallest()); // return 1, since 1 is the smallest number, and remove it from the set.
-	fmt.Println(smallestInfiniteSet.PopSmallest()); // return 1, since 1 is the smallest number, and remove it from the set.
-	fmt.Println(smallestInfiniteSet.PopSmallest()); // return 1, since 1 is the smallest number, and remove it from the set.
+	// smallestInfiniteSet:=SmallestInfiniteSetConstructor();
+	// smallestInfiniteSet.AddBack(2);    // 2 is already in the set, so no change is made.
+	// fmt.Println(smallestInfiniteSet.PopSmallest()); // return 1, since 1 is the smallest number, and remove it from the set.
+	// fmt.Println(smallestInfiniteSet.PopSmallest()); // return 1, since 1 is the smallest number, and remove it from the set.
+	// fmt.Println(smallestInfiniteSet.PopSmallest()); // return 1, since 1 is the smallest number, and remove it from the set.
 
-	smallestInfiniteSet.AddBack(1);    // 1 is added back to the set.
-	fmt.Println(smallestInfiniteSet.PopSmallest()); // return 1, since 1 is the smallest number, and remove it from the set.
-	fmt.Println(smallestInfiniteSet.PopSmallest()); // return 1, since 1 is the smallest number, and remove it from the set.
-	fmt.Println(smallestInfiniteSet.PopSmallest()); // return 1, since 1 is the smallest number, and remove it from the set.
-
+	// smallestInfiniteSet.AddBack(1);    // 1 is added back to the set.
+	// fmt.Println(smallestInfiniteSet.PopSmallest()); // return 1, since 1 is the smallest number, and remove it from the set.
+	// fmt.Println(smallestInfiniteSet.PopSmallest()); // return 1, since 1 is the smallest number, and remove it from the set.
+	// fmt.Println(smallestInfiniteSet.PopSmallest()); // return 1, since 1 is the smallest number, and remove it from the set.
+	fmt.Println(maxScore([]int{2,1,14,12}, []int{11,7,13,6}, 3))
 
 }
 
