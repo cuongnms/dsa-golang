@@ -152,9 +152,12 @@ func main() {
 	// fmt.Println(smallestInfiniteSet.PopSmallest()); // return 1, since 1 is the smallest number, and remove it from the set.
 	// fmt.Println(smallestInfiniteSet.PopSmallest()); // return 1, since 1 is the smallest number, and remove it from the set.
 	// fmt.Println(maxScore([]int{2,1,14,12}, []int{11,7,13,6}, 3))
-	// fmt.Println(totalCost([]int{17,12,10,2,7,2,11,20,8}, 3,4))
-		fmt.Println(totalCost([]int{1,2,4,1}, 3,3))
-
+	fmt.Println(totalCost([]int{17,12,10,2,7,2,11,20,8}, 3,4))
+		// fmt.Println(totalCost([]int{1,2,4,1}, 3, 3))
+	// fmt.Println(totalCost([]int{31,25,72,79,74,65,84,91,18,59,27,9,81,33,17,58}, 11,2))
+							//  0  1  2  3  4  5  6  7  8  9  10 1112 13 14 15
+							// 31 25    17 58 => 17
+							// 31 25    33 58
 }
 
 // [17 12 10 2] 7 [2 11 20 8]

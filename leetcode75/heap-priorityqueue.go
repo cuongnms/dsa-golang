@@ -271,7 +271,6 @@ func (pq *PriorityQueue) Pop() interface{} {
 	return item
 }
 
-
 func maxScore(nums1 []int, nums2 []int, k int) int64 {
 	pq := &PriorityQueue{}
 	heap.Init(pq)
@@ -339,54 +338,149 @@ Constraints:
 1 <= costs[i] <= 105
 1 <= k, candidates <= costs.length
 */
+
+type MinHeap []int
+
+// Len is part of sort.Interface
+func (h MinHeap) Len() int {
+	return len(h)
+}
+
+// Less is part of sort.Interface and ensures the heap property
+func (h MinHeap) Less(i, j int) bool {
+	return h[i] < h[j]
+}
+
+// Swap is part of sort.Interface
+func (h MinHeap) Swap(i, j int) {
+	h[i], h[j] = h[j], h[i]
+}
+
+// Push adds an element to the heap
+func (h *MinHeap) Push(x interface{}) {
+	*h = append(*h, x.(int))
+}
+
+// Pop removes and returns the smallest element from the heap
+func (h *MinHeap) Pop() interface{} {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[0 : n-1]
+	return x
+}
+
+// Peek returns the smallest element without removing it
+func (h MinHeap) Peek() int {
+	return h[0]
+}
+
 func totalCost(costs []int, k int, candidates int) int64 {
-	pqLeft := &PriorityQueue{}
+	pqLeft := &MinHeap{}
 	heap.Init(pqLeft)
-	rs := 0
-
-	pqRight := &PriorityQueue{}
+	pqRight := &MinHeap{}
 	heap.Init(pqRight)
-
-	for i:=0; i < candidates;i++ {
+	leftIndex := candidates
+	for i := 0; i < candidates; i++ {
 		heap.Push(pqLeft, costs[i])
 	}
 
-	startIndex:=0
-	if len(costs) - candidates > candidates {
-		startIndex = len(costs) - candidates
-	}else {
-		startIndex = candidates
+	rightIndex := max(len(costs)-candidates-1, candidates-1)
+	for i := len(costs) - 1; i > rightIndex; i-- {
+		heap.Push(pqRight, costs[i])
 	}
-	
-	for i:= startIndex; i < len(costs); i++ {
-		heap.Push(pqRight, costs[i])	
-	}
-	fmt.Println(pqLeft)
-	fmt.Println(pqRight)
 
-
-	leftIndex:= candidates
-	rightIndex:= len(costs) -  candidates - 1
-	for i:=0; i < k; i++ {
-		fmt.Println((*pqLeft)[0])
-		fmt.Println((*pqRight)[0])
-		if pqRight.Len() == 0 || pqLeft.Len() > 0 && (*pqLeft)[0] <= (*pqRight)[0]{
-			rs+=pqLeft.Pop().(int)
-			fmt.Println("Rs: ", rs)
-			if leftIndex <= rightIndex {
-				heap.Push(pqLeft, costs[leftIndex])
-				leftIndex++
+	rs := 0
+	for i := 0; i < k; i++ {
+		if pqLeft.Len() > 0 && pqRight.Len() > 0 {
+			if pqLeft.Peek() <= pqRight.Peek() {
+				val := heap.Pop(pqLeft).(int)
+				fmt.Println("val pop: ", val)
+				rs += val
+				if leftIndex <= rightIndex {
+					heap.Push(pqLeft, costs[leftIndex])
+					leftIndex++
+				}
+			} else {
+				val := heap.Pop(pqRight).(int)
+				fmt.Println("val pop: ", val)
+				rs += val
+				if leftIndex <= rightIndex {
+					heap.Push(pqRight, costs[rightIndex])
+					rightIndex--
+				}
 			}
-		}else {
-			rs+= pqRight.Pop().(int)
-			fmt.Println("Rs: ", rs)
-
-			if leftIndex <= rightIndex {
-				heap.Push(pqRight, costs[rightIndex])
-				rightIndex--
-			}
+		} else if pqLeft.Len() > 0 {
+			val := heap.Pop(pqLeft).(int)
+			fmt.Println("val pop: ", val)
+			rs += val
+		} else if pqRight.Len() > 0 {
+			val := heap.Pop(pqRight).(int)
+			fmt.Println("val pop: ", val)
+			rs += val
 		}
+		fmt.Println("leftQ: ", pqLeft)
+		fmt.Println("rightQ: ", pqRight)
 	}
-
 	return int64(rs)
 }
+
+// type MinHeap []int
+
+// func (h MinHeap) Len() int           { return len(h) }
+
+// func (h MinHeap) Less(i, j int) bool {
+// 	return h[i] < h[j]
+// }
+
+// func (h MinHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+
+// func (h *MinHeap) Push(x any) {
+// 	*h = append(*h, x.(int))
+// }
+
+// func (h *MinHeap) Pop() any {
+// 	x := (*h)[len(*h)-1]
+// 	*h = (*h)[:len(*h)-1]
+// 	return x
+// }
+
+// func totalCost(costs []int, k int, candidates int) int64 {
+//     var ret int64
+//     firstPQ := MinHeap{}
+//     lastPQ := MinHeap{}
+//     fi := 0                 // next element to be added in firstPQ
+//     li := len(costs) - 1    // next element to be added in lastPQ
+
+//     // TC is O(C*logC), and SC is O(C)
+//     for fi < candidates {
+//         heap.Push(&firstPQ, costs[fi])
+//         fi++
+//     }
+
+//     for len(costs) - candidates <= li && fi <= li {
+//         heap.Push(&lastPQ, costs[li])
+//         li--
+//     }
+
+//     // TC is O(K*logC)
+//     for i:=0; i<k; i++ {
+//         if firstPQ.Len() == 0 || (lastPQ.Len() > 0 && lastPQ[0] < firstPQ[0]) {
+//             ret += int64(heap.Pop(&lastPQ).(int))
+
+//             if fi <= li {
+//                 heap.Push(&lastPQ, costs[li])
+//                 li--
+//             }
+//         } else {
+//             ret += int64(heap.Pop(&firstPQ).(int))
+
+//             if fi <= li {
+//                 heap.Push(&firstPQ, costs[fi])
+//                 fi++
+//             }
+//         }
+//     }
+
+//     return ret
+// }
