@@ -156,7 +156,6 @@ func main() {
 		// fmt.Println(totalCost([]int{1,2,4,1}, 3, 3))
 	// fmt.Println(totalCost([]int{31,25,72,79,74,65,84,91,18,59,27,9,81,33,17,58}, 11,2))
 	fmt.Println(successfulPairs([]int{5,1,3}, []int{1,2,3,4,5}, 7))
-	// fmt.Println(getTotal([]int{5,10,15,20,25}, 7))
 }
 
 // [17 12 10 2] 7 [2 11 20 8]

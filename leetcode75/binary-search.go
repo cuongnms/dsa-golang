@@ -95,38 +95,22 @@ func successfulPairs(spells []int, potions []int, success int64) []int {
 	rs:=make([]int, 0)
     sort.Ints(potions)
 	for i:=0; i < len(spells); i++ {
-		tmp:=make([]int, len(potions))
+		low:=0
+		high := len(potions) - 1
 
-		for j :=0 ; j < len(tmp); j++ {
-			tmp[j] = potions[j] * spells[i]
+		for low <= high {
+			mid:= low + (high - low)/2
+			product:= spells[i]*potions[mid]
+			if product >= int(success) {
+				high  = mid -1
+			}else {
+				low = mid + 1
+			}
 		}
-		rs = append(rs, getTotal(tmp, success))
+
+		rs = append(rs, len(potions) - low)
+		
 
 	}
 	return rs
-}
-
-func getTotal(arr []int, val int64) int {
-	low:=0
-	high := len(arr) - 1
-	if int64(arr[low]) >= val {
-		return len(arr)
-	}
-	if int64(arr[high]) < val {
-		return 0
-	}
-	for {
-		mid:=(high - low)/2 + low
-		if low == mid-1 && int64(arr[mid]) >= val && int64(arr[low]) <= val {
-			return len(arr) - mid
-		}
-		if mid + 1 == high && int64(arr[mid]) <= val && int64(arr[high]) >= val {
-			return len(arr) - high
-		}
-		if int64(arr[mid]) > val {
-			high = mid 
-		}else if int64(arr[mid]) < val {
-			low = mid
-		} 
-	}
 }
