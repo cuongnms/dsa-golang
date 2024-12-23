@@ -157,7 +157,8 @@ func main() {
 	// fmt.Println(totalCost([]int{31,25,72,79,74,65,84,91,18,59,27,9,81,33,17,58}, 11,2))
 	// fmt.Println(successfulPairs([]int{5,1,3}, []int{1,2,3,4,5}, 7))
 	// fmt.Println(findPeakElement([]int{1,2,1,3,5,6,4}))
-	fmt.Println(minEatingSpeed([]int{3,6,7,11}, 8))
+	// fmt.Println(minEatingSpeed([]int{3,6,7,11}, 8))
+	fmt.Println(letterCombinations("23"))
 }
 
 // [17 12 10 2] 7 [2 11 20 8]

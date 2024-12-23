@@ -197,7 +197,7 @@ piles.length <= h <= 109
 1 <= piles[i] <= 109
 */
 func minEatingSpeed(piles []int, h int) int {
-
+	sort.Ints(piles)
 	low := 1
 	high := piles[len(piles) - 1]
 	for low <= high {
@@ -212,16 +212,20 @@ func minEatingSpeed(piles []int, h int) int {
 }
 
 func checkTime(arr []int, k,h int ) bool {
-	fmt.Println("k: ", k)
 	time:=0
 	for i:=0 ; i < len(arr); i++ {
 		val:= arr[i]/k
-		bonus:= arr[i]%k
-		time+= val
-		if bonus > 0 {
+		if val == 0 {
 			time++
+		}else {
+			bonus:= arr[i]%k
+			time+= val
+			if bonus > 0 {
+				time++
+			}
 		}
+		
+		
 	}
-	fmt.Println("time: ", time)
 	return time <= h 
 }
