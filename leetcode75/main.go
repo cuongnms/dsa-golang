@@ -160,7 +160,8 @@ func main() {
 	// fmt.Println(minEatingSpeed([]int{3,6,7,11}, 8))
 	// fmt.Println(letterCombinations("23"))
 	// fmt.Println(combinationSum3(4,24))
-	fmt.Println(tribonacci(25))
+	// fmt.Println(tribonacci(25))
+	fmt.Println(minCostClimbingStairs([]int{1,100,1,1,1,100,1,1,100,1}))
 }
 
 // [17 12 10 2] 7 [2 11 20 8]
