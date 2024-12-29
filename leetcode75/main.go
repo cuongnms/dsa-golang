@@ -162,7 +162,9 @@ func main() {
 	// fmt.Println(combinationSum3(4,24))
 	// fmt.Println(tribonacci(25))
 	// fmt.Println(minCostClimbingStairs([]int{1,100,1,1,1,100,1,1,100,1}))
-	fmt.Println(rob([]int{2,7,9,3,1}))
+	// fmt.Println(rob([]int{2,7,9,3,1}))
+	// fmt.Println(numTilings(30))
+	fmt.Println(uniquePaths(3,7))
 }
 
 // [17 12 10 2] 7 [2 11 20 8]
