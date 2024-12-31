@@ -164,7 +164,8 @@ func main() {
 	// fmt.Println(minCostClimbingStairs([]int{1,100,1,1,1,100,1,1,100,1}))
 	// fmt.Println(rob([]int{2,7,9,3,1}))
 	// fmt.Println(numTilings(30))
-	fmt.Println(uniquePaths(3,7))
+	// fmt.Println(uniquePaths(3,7))
+	fmt.Println(longestCommonSubsequence("abcde", "ace"))
 }
 
 // [17 12 10 2] 7 [2 11 20 8]

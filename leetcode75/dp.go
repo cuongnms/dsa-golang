@@ -1,5 +1,8 @@
 package main
 
+import (
+	"fmt"
+)
 
 /*
 The Tribonacci sequence Tn is defined as follows:
@@ -260,4 +263,65 @@ func uniquePaths(m int, n int) int {
 
 	return dp[m-1][n-1]
 
+}
+
+/*
+Given two strings text1 and text2, return the length of their longest common subsequence. If there is no common subsequence, return 0.
+A subsequence of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.
+For example, "ace" is a subsequence of "abcde".
+A common subsequence of two strings is a subsequence that is common to both strings.
+
+Example 1:
+
+Input: text1 = "abcde", text2 = "ace" 
+Output: 3  
+Explanation: The longest common subsequence is "ace" and its length is 3.
+Example 2:
+
+Input: text1 = "abc", text2 = "abc"
+Output: 3
+Explanation: The longest common subsequence is "abc" and its length is 3.
+Example 3:
+
+Input: text1 = "abc", text2 = "def"
+Output: 0
+Explanation: There is no such common subsequence, so the result is 0.
+ 
+
+Constraints:
+
+1 <= text1.length, text2.length <= 1000
+text1 and text2 consist of only lowercase English characters.
+*/
+func longestCommonSubsequence(text1 string, text2 string) int {
+    var recursive func(idx1, idx2 int) int
+	fmt.Println()
+	dp:=make([][]int,0)
+	for i:=0 ; i <= len(text1); i++ {
+		tmp:= make([]int, 0)
+		for j:=0 ; j <= len(text2); j++ {
+			tmp = append(tmp, -1)
+		}
+		dp = append(dp, tmp)
+	}
+
+	
+	recursive = func(idx1, idx2 int) int {
+		if idx1 == 0 || idx2 == 0 {
+			return 0
+		}
+
+		if dp[idx1][idx2] != -1 {
+			return dp[idx1][idx2]
+		}
+		if text1[idx1-1] == text2[idx2-1] {
+			dp[idx1][idx2] = recursive(idx1-1, idx2-1) + 1
+		}else {
+			dp[idx1][idx2] = max(recursive(idx1-1, idx2), recursive(idx1, idx2-1))
+		}
+		return dp[idx1][idx2]
+	}
+
+	rs:= recursive(len(text1), len(text2))
+	return rs
 }
