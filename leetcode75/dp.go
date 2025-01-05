@@ -325,3 +325,267 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 	rs:= recursive(len(text1), len(text2))
 	return rs
 }
+
+/*
+You are given an array prices where prices[i] is the price of a given stock on the ith day, and an integer fee representing a transaction fee.
+Find the maximum profit you can achieve. 
+You may complete as many transactions as you like, but you need to pay the transaction fee for each transaction.
+
+Note:
+
+You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+The transaction fee is only charged once for each stock purchase and sale.
+
+Example 1:
+
+Input: prices = [1,3,2,8,4,9], fee = 2
+Output: 8
+Explanation: The maximum profit can be achieved by:
+- Buying at prices[0] = 1
+- Selling at prices[3] = 8
+- Buying at prices[4] = 4
+- Selling at prices[5] = 9
+The total profit is ((8 - 1) - 2) + ((9 - 4) - 2) = 8.
+Example 2:
+
+Input: prices = [1,3,7,5,10,3], fee = 3
+Output: 6
+ 
+
+Constraints:
+
+1 <= prices.length <= 5 * 104
+1 <= prices[i] < 5 * 104
+0 <= fee < 5 * 104
+*/
+func maxProfit(prices []int, fee int) int {
+    var recursive func(index int, isHold int) int
+	dp := make([][]int,0)
+	for i:=0 ; i< len(prices); i++ {
+		tmp := make([]int,0)
+		for j:=0 ; j < 2; j++ {
+			tmp = append(tmp, -1)
+		}
+		dp = append(dp, tmp )
+	}
+	fmt.Println(dp)
+	recursive = func(index int, isHold int) int {
+		if index == len(prices) {
+			return 0
+		}
+
+		if dp[index][isHold] != -1 {
+			return dp[index][isHold]
+		}
+
+		if isHold == 1 {
+			noSell:= recursive(index+1, 1)
+			sell:= recursive(index+1, 0) + prices[index] - fee
+			dp[index][isHold] = max(noSell, sell)
+			return dp[index][isHold] 
+		}else {
+			buy:= recursive(index+1, 1) - prices[index] 
+			noBuy:= recursive(index+1, 0) 
+			dp[index][isHold] = max(buy, noBuy)
+			return dp[index][isHold]
+		}
+	}
+
+	rs:= recursive(0, 0)
+	return rs
+}
+
+/*
+Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2.
+You have the following three operations permitted on a word:
+Insert a character
+Delete a character
+Replace a character
+
+Example 1:
+
+Input: word1 = "horse", word2 = "ros"
+Output: 3
+Explanation: 
+horse -> rorse (replace 'h' with 'r')
+rorse -> rose (remove 'r')
+rose -> ros (remove 'e')
+Example 2:
+
+Input: word1 = "intention", word2 = "execution"
+Output: 5
+Explanation: 
+intention -> inention (remove 't')
+inention -> enention (replace 'i' with 'e')
+enention -> exention (replace 'n' with 'x')
+exention -> exection (replace 'n' with 'c')
+exection -> execution (insert 'u')
+ 
+Constraints:
+
+0 <= word1.length, word2.length <= 500
+word1 and word2 consist of lowercase English letters.
+*/
+func minDistance(word1 string, word2 string) int {
+	if word1 =="" {
+		return len(word2)
+	}
+	if word2 == "" {
+		return len(word1)
+	}
+	var recursive func(index1, index2 int) int
+
+	dp:= make([][]int, 0)
+	for i:=0 ; i < len(word1); i++ {
+		tmp:=make([]int,0)
+		for j:=0; j < len(word2); j++ {
+			tmp = append(tmp, -1)
+		}
+		dp = append(dp, tmp)
+	}
+	
+	recursive = func(index1, index2 int) int {
+		if index1 == len(word1) {
+			return len(word2) - index2
+		}
+		if index2 == len(word2) {
+			return len(word1) - index1
+		}
+
+		if dp[index1][index2] != -1 {
+			return dp[index1][index2]
+		}
+
+		if word1[index1] == word2[index2] {
+			dp[index1][index2] = recursive(index1+1, index2+1)
+		}else  {
+			replace := recursive(index1+1, index2+1)
+			insert := recursive(index1, index2+1) 
+			delete := recursive(index1+1, index2) 
+			dp[index1][index2] = min(min(insert, delete), replace) + 1
+		}
+		return dp[index1][index2]
+		
+	}
+
+	rs := recursive(0,0)
+	return rs
+}
+
+/*
+Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n), 
+ans[i] is the number of 1's in the binary representation of i.
+
+Example 1:
+
+Input: n = 2
+Output: [0,1,1]
+Explanation:
+0 --> 0
+1 --> 1
+2 --> 10
+Example 2:
+
+Input: n = 5
+Output: [0,1,1,2,1,2]
+Explanation:
+0 --> 0
+1 --> 1
+2 --> 10
+3 --> 11
+4 --> 100
+5 --> 101
+
+Constraints:
+
+0 <= n <= 10^5
+
+Follow up:
+
+It is very easy to come up with a solution with a runtime of O(n log n). Can you do it in linear time O(n) and possibly in a single pass?
+Can you do it without using any built-in function (i.e., like __builtin_popcount in C++)?
+
+// f(0)= 0000  
+// f(1)= 0001   1
+
+// f(2)= 0010   1
+// f(3)= 0011   2
+
+// f(4)= 0100  1
+
+// f(5)= 0101  2
+// f(6)= 0110  2
+// f(7)= 0111  3
+
+// f(8)= 1000 1
+
+// f(9)= 1001 2
+// f(10)= 1010 2
+// f(11)= 1011 3
+// f(12)= 1100 2
+// f(13)= 1101 3
+// f(14)= 1110 3
+// f(15)= 1111 4
+
+15/2 = 7
+
+
+10/2 = 5 
+10 - 5 = 5
+
+// f(16)= 10000 1
+
+
+3 = 2 + 1
+
+1 + 3 = 4 
+
+*/
+func countBits(n int) []int {
+	if n == 0 {
+		return []int{0}
+	}
+	
+	dp:=make([]int, n+1)
+	if n== 1 {
+		dp[1]=1
+		return dp
+	}
+
+	dp[0]=0
+	dp[1]=1
+	binary:=1
+	for i:=2; i<= n;i++ {
+		if i < binary * 2 {
+			dp[i]=dp[i-binary] + dp[binary]
+		}else if i== binary*2{
+			dp[i] = 1
+		}else {
+			binary = binary*2
+			dp[i] = dp[i-binary] + dp[binary]
+		}
+	}
+
+    // var recursive func(count int, binary int) int 
+	// recursive = func(count int, binary int) int {
+	// 	if binary == 0 {
+	// 		return 0
+	// 	}
+	// 	if count == 1 || count == 2 {
+	// 		return 1
+	// 	}
+	// 	if count == binary {
+	// 		return 1
+	// 	}
+
+	// 	if count > binary {
+	// 		return 1 + recursive(count - binary, binary)
+	// 	}else {
+	// 		return recursive(count, binary/2)
+	// 	}
+	// }
+
+	// rs := recursive(n,i/2)
+	// fmt.Println(rs)
+	return dp
+}

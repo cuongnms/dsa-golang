@@ -165,7 +165,10 @@ func main() {
 	// fmt.Println(rob([]int{2,7,9,3,1}))
 	// fmt.Println(numTilings(30))
 	// fmt.Println(uniquePaths(3,7))
-	fmt.Println(longestCommonSubsequence("abcde", "ace"))
+	// fmt.Println(longestCommonSubsequence("abcde", "ace"))
+	// fmt.Println(maxProfit([]int{1,3,2,8,4,9},2))
+	// fmt.Println(minDistance("horse", "ros"))
+	fmt.Println(countBits(15))
 }
 
 // [17 12 10 2] 7 [2 11 20 8]
