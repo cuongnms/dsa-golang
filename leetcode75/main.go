@@ -168,7 +168,8 @@ func main() {
 	// fmt.Println(longestCommonSubsequence("abcde", "ace"))
 	// fmt.Println(maxProfit([]int{1,3,2,8,4,9},2))
 	// fmt.Println(minDistance("horse", "ros"))
-	fmt.Println(countBits(15))
+	// fmt.Println(countBits(15))
+	fmt.Println(minFlips(8,3,5))
 }
 
 // [17 12 10 2] 7 [2 11 20 8]
