@@ -171,6 +171,7 @@ func main() {
 	// fmt.Println(countBits(15))
 	// fmt.Println(minFlips(8,3,5))
 	trie := Constructor()
+	trie.Insert("test")
 	trie.Print()
 }
 
