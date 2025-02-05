@@ -170,9 +170,11 @@ func main() {
 	// fmt.Println(minDistance("horse", "ros"))
 	// fmt.Println(countBits(15))
 	// fmt.Println(minFlips(8,3,5))
-	trie := Constructor()
-	trie.Insert("test")
-	trie.Print()
+	// trie := Constructor()
+	// trie.Insert("test")
+	// trie.Print()
+	// fmt.Println(suggestedProducts([]string{"mobile", "mouse", "moneypot", "monitor", "mousepad"}, "mouse"))
+	fmt.Println(eraseOverlapIntervals([][]int{{1,100}, {11,22}, {1,11}, {2,12}}))
 }
 
 // [17 12 10 2] 7 [2 11 20 8]
