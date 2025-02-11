@@ -176,7 +176,15 @@ func main() {
 	// fmt.Println(suggestedProducts([]string{"mobile", "mouse", "moneypot", "monitor", "mousepad"}, "mouse"))
 	// fmt.Println(eraseOverlapIntervals([][]int{{1,100}, {11,22}, {1,11}, {2,12}}))
 	// fmt.Println(findMinArrowShots([][]int{{1,2},{3,4},{5,6},{7,8}}))
-	fmt.Println(dailyTemperatures([]int{73,74,75,71,69,72,76,73}))
+	// fmt.Println(dailyTemperatures([]int{73,74,75,71,69,72,76,73}))
+	stack:= ConstructorStack()
+	stack.Next(100)
+	stack.Next(80)
+	stack.Next(60)
+	stack.Next(70)
+	stack.Next(60)
+	stack.Next(75)
+	stack.Next(85)
 }
 
 // [17 12 10 2] 7 [2 11 20 8]
