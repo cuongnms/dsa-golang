@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 /*
 Given an integer array nums, find the subarray with the largest sum, and return its sum.
 
@@ -23,23 +25,27 @@ Constraints:
 
 1 <= nums.length <= 105
 -104 <= nums[i] <= 104
- 
+
 Follow up: If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, which is more subtle.
 */
 func maxSubArray(nums []int) int {
     currentMax:=nums[0]
 	max:=nums[0]
-
+	startIndex:=0
+	endIndex:=0
 	for i:=1; i < len(nums); i++ {
 		if currentMax + nums[i] > nums[i] {
 			currentMax += nums[i]
 		}else {
 			currentMax = nums[i]
+			startIndex = i
 		}
 		if max < currentMax {
 			max = currentMax
+			endIndex = i
 		}
 	}
+	fmt.Println(startIndex," ", endIndex)
 	return max
 }
 
