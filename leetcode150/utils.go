@@ -7,6 +7,24 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
+func CreateLL(values []interface{}) *ListNode {
+	if len(values) == 0 || values[0] == nil {
+		return nil
+	}
+	root:= &ListNode{Val: values[0].(int), Next: nil}
+	current:= root
+	for i:=1; i < len(values); i++ {
+		current.Next = &ListNode{values[i].(int), nil}
+		current = current.Next
+	}
+
+	return root
+}
 
 func CreateTree(values []interface{}) *TreeNode {
 	if len(values) == 0 || values[0] == nil {

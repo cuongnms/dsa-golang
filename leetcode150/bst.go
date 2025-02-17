@@ -24,7 +24,7 @@ Follow up: If the BST is modified often (i.e., we can do insert and delete opera
 how would you optimize?
 */
 func kthSmallest(root *TreeNode, k int) int {
-    
+	fmt.Println()
 	var travel func(root *TreeNode) 
 	index:=0
 	rs:= -1
