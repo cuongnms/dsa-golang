@@ -51,3 +51,55 @@ func combine(n int, k int) [][]int {
 	fmt.Println(rs)
 	return rs
 }
+
+/*
+Given an array nums of distinct integers, return all the possible 
+permutations
+. You can return the answer in any order.
+
+Example 1:
+
+Input: nums = [1,2,3]
+Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+Example 2:
+
+Input: nums = [0,1]
+Output: [[0,1],[1,0]]
+Example 3:
+
+Input: nums = [1]
+Output: [[1]]
+ 
+
+Constraints:
+
+1 <= nums.length <= 6
+-10 <= nums[i] <= 10
+All the integers of nums are unique.
+*/
+func permute(nums []int) [][]int {
+    rs:= make([][]int, 0)
+
+	var recursion func(arr []int) 
+	check:= make([]bool, len(nums))
+
+	recursion = func(arr []int) {
+		if len(arr) == len(nums) {
+			rs = append(rs, append([]int{}, arr...))
+			return
+		}
+
+		for i:=0 ; i < len(nums);i++ {
+			if !check[i] {
+				arr = append(arr, nums[i])
+				check[i] = true
+				recursion(arr)
+				arr = arr[:len(arr)-1]
+				check[i] =false
+			}
+		}
+	}
+	recursion([]int{})
+	return rs
+
+}

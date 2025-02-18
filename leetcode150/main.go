@@ -13,7 +13,8 @@ func main() {
 	// }
 	// root := CreateTree(values)
 	// fmt.Println(kthSmallest(root, 1))
-	values:= []interface{}{1,2}
-	list:= CreateLL(values)
-	fmt.Println(rotateRight(list, 1))
+	// values:= []interface{}{1,2}
+	// list:= CreateLL(values)
+	// fmt.Println(rotateRight(list, 1))
+	fmt.Println(permute([]int{1,2,3}))
 }
