@@ -16,5 +16,6 @@ func main() {
 	// values:= []interface{}{1,2}
 	// list:= CreateLL(values)
 	// fmt.Println(rotateRight(list, 1))
-	fmt.Println(permute([]int{1,2,3}))
+	// fmt.Println(permute([]int{1,2,3}))
+	fmt.Println(combinationSum([]int{8,7,4,3},11))
 }
