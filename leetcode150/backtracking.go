@@ -150,16 +150,77 @@ func combinationSum(candidates []int, target int) [][]int {
 			rs = append(rs, append([]int{}, arr...))
 			return
 		}
-		
+
 		for i := index; i < len(candidates); i++ {
-			sum+= candidates[i]
+			sum += candidates[i]
 			arr = append(arr, candidates[i])
 			recursion(arr, i, sum)
-			sum-= candidates[i]
+			sum -= candidates[i]
 			arr = arr[:len(arr)-1]
 		}
 	}
 	recursion([]int{}, 0, 0)
 
 	return rs
+}
+
+/*
+Given an m x n grid of characters board and a string word, return true if word exists in the grid.
+The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring.
+The same letter cell may not be used more than once.
+
+Example 1:
+
+Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+Output: true
+Example 2:
+
+Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "SEE"
+Output: true
+Example 3:
+
+Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCB"
+Output: false
+
+Constraints:
+
+m == board.length
+n = board[i].length
+1 <= m, n <= 6
+1 <= word.length <= 15
+board and word consists of only lowercase and uppercase English letters.
+
+Follow up: Could you use search pruning to make your solution faster with a larger board?
+*/
+func exist(board [][]byte, word string) bool {
+	cMax := len(board[0])
+	rMax := len(board)
+
+	var recursive func(r, c int, length int) bool
+	recursive = func(r, c int, length int) bool {
+		if length == len(word) {
+			return true
+		}
+		if r < 0 || c < 0 || r >= rMax || c >= cMax || board[r][c] != word[length] {
+			return false
+		}
+
+		tmp := board[r][c]
+		board[r][c] = '*'
+
+		found := recursive(r+1, c, length+1) || recursive(r-1, c, length+1) || recursive(r, c+1, length+1) || recursive(r, c-1, length+1)
+
+		board[r][c] = tmp
+		return found
+	}
+
+	for i := 0; i < rMax; i++ {
+		for j := 0; j < cMax; j++ {
+			if recursive(i, j, 0) {
+				return true
+			}
+		}
+	}
+	return false
+
 }

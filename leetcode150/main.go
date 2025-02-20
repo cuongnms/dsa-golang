@@ -17,5 +17,8 @@ func main() {
 	// list:= CreateLL(values)
 	// fmt.Println(rotateRight(list, 1))
 	// fmt.Println(permute([]int{1,2,3}))
-	fmt.Println(combinationSum([]int{8,7,4,3},11))
+	// fmt.Println(combinationSum([]int{8,7,4,3},11))
+	fmt.Println(exist([][]byte{{'A', 'B', 'C', 'E'},
+	{'S', 'F', 'C', 'S'},
+	{'A', 'D', 'E', 'E'}}, "ABCCED"))
 }
