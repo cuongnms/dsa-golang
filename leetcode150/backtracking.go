@@ -224,3 +224,54 @@ func exist(board [][]byte, word string) bool {
 	return false
 
 }
+
+/*
+Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+
+Example 1:
+
+Input: n = 3
+Output: ["((()))","(()())","(())()","()(())","()()()"]
+Example 2:
+
+Input: n = 1
+Output: ["()"]
+
+Constraints:
+
+1 <= n <= 8
+
+3
+
+(((
+
+*/
+
+func generateParenthesis(n int) []string {
+    rs:=make([]string, 0)
+	var recursive func(str string, open, close int)
+
+	recursive = func(str string, open, close int) {
+		if open == close && open == n {
+			rs = append(rs, str)
+			return
+		}
+
+		if open < n {
+			str+="("
+			recursive(str, open + 1, close)
+			str = str[0: len(str)-1]
+		}
+
+		if close < open {
+			str+=")"
+			recursive(str, open, close + 1)
+		}
+
+	}
+
+	recursive("", 0, 0)
+	return rs
+}
+
+
