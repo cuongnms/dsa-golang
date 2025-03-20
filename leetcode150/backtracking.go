@@ -274,4 +274,73 @@ func generateParenthesis(n int) []string {
 	return rs
 }
 
+/*
+The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.
+
+Given an integer n, return the number of distinct solutions to the n-queens puzzle.
+
+Example 1:
+
+Input: n = 4
+Output: 2
+Explanation: There are two distinct solutions to the 4-queens puzzle as shown.
+Example 2:
+
+Input: n = 1
+Output: 1
+
+Constraints:
+
+1 <= n <= 9
+
+x x o x 
+o x x x
+x x x o
+x o x x
+
+*/
+func totalNQueens(n int) int {
+	rs:=0
+	position:=make([][]int, 0)
+	checkValid := func(row, col int) bool {
+		if len(position)==0 {
+			return true
+		}
+
+		for i:=0; i< len(position); i++ {
+			index:=position[i]
+			if row <0 || row >=n || col < 0 || col >=n || index[0] == row || index[1] == col || index[0] - index[1] == row - col || index[0] + index[1] == row + col {
+				return false
+			}
+		}
+		return true
+	}
+
+	var backtracking func(col int) 
+    backtracking = func(col int) {
+		if col == n {
+			rs=rs+1
+			return
+		}
+
+		for i:=0 ; i < n; i++ {
+			if checkValid(i,col) {
+				position = append(position, []int{i, col})
+				fmt.Println("at col: " , col , " - pos: " ,position)
+
+				backtracking(col+1)
+				position = position[0:len(position)-1]
+
+			}
+		}
+	}
+	backtracking(0)
+	return rs
+}
+
+/*
+r = 0, c = 0
+
+
+*/
 
