@@ -28,7 +28,7 @@ func main() {
 	// 	fmt.Println(tmp.Val)
 	// 	tmp = tmp.Next
 	// }
-	fmt.Println(totalNQueens(4))
-
+	// fmt.Println(totalNQueens(4))
+	fmt.Println(canConstruct("aa", "aab"))
 }
 
