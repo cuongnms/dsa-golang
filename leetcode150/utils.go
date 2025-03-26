@@ -12,6 +12,15 @@ type ListNode struct {
 	Next *ListNode
 }
 
+type QuadNode struct {
+	Val bool
+	IsLeaf bool 
+	TopLeft *QuadNode
+	TopRight *QuadNode
+	BottomLeft *QuadNode
+	BottomRight *QuadNode
+}
+
 func CreateLL(values []interface{}) *ListNode {
 	if len(values) == 0 || values[0] == nil {
 		return nil

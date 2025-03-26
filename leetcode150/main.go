@@ -29,6 +29,7 @@ func main() {
 	// 	tmp = tmp.Next
 	// }
 	// fmt.Println(totalNQueens(4))
-	fmt.Println(canConstruct("aa", "aab"))
+	// fmt.Println(canConstruct("aa", "aab"))
+	fmt.Println(construct([][]int{{0,1},{1,0}}))
 }
 
