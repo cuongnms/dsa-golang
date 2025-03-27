@@ -30,6 +30,11 @@ func main() {
 	// }
 	// fmt.Println(totalNQueens(4))
 	// fmt.Println(canConstruct("aa", "aab"))
-	fmt.Println(construct([][]int{{0,1},{1,0}}))
+	// fmt.Println(construct([][]int{{0,1},{1,0}}))
+	values := []interface{}{
+		5,1,4,nil,nil,3,6,
+	}
+	root := CreateTree(values)
+	fmt.Println(isValidBST(root))
 }
 
