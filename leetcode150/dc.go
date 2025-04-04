@@ -223,3 +223,104 @@ func construct(grid [][]int) *QuadNode {
 	}
 	return dc(0, 0, len(grid))
 }
+
+
+/*
+You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
+
+Merge all the linked-lists into one sorted linked-list and return it.
+
+ 
+
+Example 1:
+
+Input: lists = [[1,4,5],[1,3,4],[2,6]]
+Output: [1,1,2,3,4,4,5,6]
+Explanation: The linked-lists are:
+[
+  1->4->5,
+  1->3->4,
+  2->6
+]
+merging them into one sorted list:
+1->1->2->3->4->4->5->6
+Example 2:
+
+Input: lists = []
+Output: []
+Example 3:
+
+Input: lists = [[]]
+Output: []
+ 
+
+Constraints:
+
+k == lists.length
+0 <= k <= 104
+0 <= lists[i].length <= 500
+-104 <= lists[i][j] <= 104
+lists[i] is sorted in ascending order.
+The sum of lists[i].length will not exceed 104.
+*/
+func mergeKLists(lists []*ListNode) *ListNode {
+	if len(lists) ==0 {
+		return nil
+	}
+	if len(lists) == 1 {
+		return lists[0]
+	}
+
+	var merge func(start, end int) *ListNode
+
+	merge = func(start, end int) *ListNode {
+		if start == end {
+			return lists[start]
+		}
+		
+		mid:= (start+end)/2 
+		listA:= merge(start, mid)
+		listB := merge(mid+1, end)
+		if listA == nil{
+			return listB
+		}
+		if listB == nil {
+			return listA
+		}
+		/*
+		1 -> 4 -> 5
+		tmp  listA
+		2 -> 3 -> 6
+		listB
+		*/
+		var head *ListNode
+		if listA.Val > listB.Val {
+			head = listB
+			listB = listB.Next
+		}else {
+			head = listA
+			listA = listA.Next
+		}
+		tmp := head
+		for listA != nil && listB!= nil {
+			if listA.Val > listB.Val {
+				tmp.Next = listB
+				listB = listB.Next
+			}else {
+				tmp.Next = listA
+				listA = listA.Next
+			}
+			tmp = tmp.Next
+		} 
+		if listA != nil {
+			tmp.Next = listA
+		}else {
+			tmp.Next = listB
+		}
+
+		return head		
+
+	}
+	return merge(0, len(lists)-1)
+
+}
