@@ -287,12 +287,7 @@ func mergeKLists(lists []*ListNode) *ListNode {
 		if listB == nil {
 			return listA
 		}
-		/*
-		1 -> 4 -> 5
-		tmp  listA
-		2 -> 3 -> 6
-		listB
-		*/
+		
 		var head *ListNode
 		if listA.Val > listB.Val {
 			head = listB
