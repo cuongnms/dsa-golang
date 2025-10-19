@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
 /*
@@ -36,12 +37,12 @@ func tribonacci(n int) int {
 	if n == 2 {
 		return 1
 	}
-	var recursive func (n int) int
-	memo:= make([]int, n+1)
+	var recursive func(n int) int
+	memo := make([]int, n+1)
 	memo[0] = 0
 	memo[1] = 1
 	memo[2] = 1
-	recursive = func(n int) int{
+	recursive = func(n int) int {
 		if n == 0 {
 			return memo[0]
 		}
@@ -52,7 +53,7 @@ func tribonacci(n int) int {
 			return memo[2]
 		}
 		if memo[n] == 0 {
-			memo[n] = recursive(n-1) + recursive(n-2) + recursive(n-3) 
+			memo[n] = recursive(n-1) + recursive(n-2) + recursive(n-3)
 		}
 		return memo[n]
 	}
@@ -61,7 +62,7 @@ func tribonacci(n int) int {
 }
 
 /*
-You are given an integer array cost where cost[i] is the cost of ith step on a staircase. 
+You are given an integer array cost where cost[i] is the cost of ith step on a staircase.
 Once you pay the cost, you can either climb one or two steps.
 You can either start from the step with index 0, or the step with index 1.
 Return the minimum cost to reach the top of the floor.
@@ -85,15 +86,15 @@ Explanation: You will start at index 0.
 - Pay 1 and climb two steps to reach index 9.
 - Pay 1 and climb one step to reach the top.
 The total cost is 6.
- 
+
 Constraints:
 
 2 <= cost.length <= 1000
 0 <= cost[i] <= 999
 */
 func minCostClimbingStairs(cost []int) int {
-    var recursive func (arr []int, index int) int
-	cache:=make([]int, len(cost))
+	var recursive func(arr []int, index int) int
+	cache := make([]int, len(cost))
 	for i := range cache {
 		cache[i] = -1
 	}
@@ -107,19 +108,18 @@ func minCostClimbingStairs(cost []int) int {
 		if index == 1 {
 			return arr[1]
 		}
-		
+
 		if cache[index] == -1 {
 			cache[index] = arr[index] + min(recursive(arr, index-1), recursive(arr, index-2))
 		}
 		return cache[index]
 	}
-	rs:=min(recursive(cost, len(cost)-1), recursive(cost,len(cost)-2))
+	rs := min(recursive(cost, len(cost)-1), recursive(cost, len(cost)-2))
 	return rs
 }
 
 /*
-
-You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, 
+You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed,
 the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
 Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
 
@@ -135,7 +135,6 @@ Input: nums = [2,7,9,3,1]
 Output: 12
 Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).
 Total amount you can rob = 2 + 9 + 1 = 12.
- 
 
 Constraints:
 
@@ -143,9 +142,9 @@ Constraints:
 0 <= nums[i] <= 400
 */
 func rob(nums []int) int {
-    var rec func (nums []int, index int) int
-	cache:=make([]int, len(nums))
-	for i:=0 ; i < len(nums);i++{
+	var rec func(nums []int, index int) int
+	cache := make([]int, len(nums))
+	for i := 0; i < len(nums); i++ {
 		cache[i] = -1
 	}
 	rec = func(nums []int, index int) int {
@@ -157,13 +156,13 @@ func rob(nums []int) int {
 		}
 
 		if cache[index] == -1 {
-			cache[index] = max(rec(nums, index - 2), rec(nums, index-3)) + nums[index]
+			cache[index] = max(rec(nums, index-2), rec(nums, index-3)) + nums[index]
 		}
 		return cache[index]
 
 	}
 
-	rs:= max(rec(nums, len(nums)-1), rec(nums,len(nums)-2))
+	rs := max(rec(nums, len(nums)-1), rec(nums, len(nums)-2))
 	return rs
 }
 
@@ -174,7 +173,6 @@ In a tiling, every square must be covered by a tile. Two tilings are different i
 
 Example 1:
 
-
 Input: n = 3
 Output: 5
 Explanation: The five different ways are show above.
@@ -182,14 +180,14 @@ Example 2:
 
 Input: n = 1
 Output: 1
- 
+
 Constraints:
 
 1 <= n <= 1000
 */
 func numTilings(n int) int {
-	dp:=make([]int, n +1)
-	
+	dp := make([]int, n+1)
+
 	if n == 0 {
 		return 1
 	}
@@ -199,17 +197,16 @@ func numTilings(n int) int {
 	if n == 2 {
 		return 2
 	}
-	if n== 3 {
+	if n == 3 {
 		return 5
 	}
 	dp[0] = 0
 	dp[1] = 1
 	dp[2] = 2
 	dp[3] = 5
-	mod:= 1_000_000_000 + 7
+	mod := 1_000_000_000 + 7
 
-
-	for i:=4 ; i <= n; i ++ {
+	for i := 4; i <= n; i++ {
 		dp[i] = 2*dp[i-1] + dp[i-3]
 		dp[i] = dp[i] % mod
 	}
@@ -217,7 +214,7 @@ func numTilings(n int) int {
 }
 
 /*
-There is a robot on an m x n grid. The robot is initially located at the top-left corner (i.e., grid[0][0]). The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]). 
+There is a robot on an m x n grid. The robot is initially located at the top-left corner (i.e., grid[0][0]). The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]).
 The robot can only move either down or right at any point in time.
 Given the two integers m and n, return the number of possible unique paths that the robot can take to reach the bottom-right corner.
 The test cases are generated so that the answer will be less than or equal to 2 * 109.
@@ -234,29 +231,29 @@ Explanation: From the top-left corner, there are a total of 3 ways to reach the 
 1. Right -> Down -> Down
 2. Down -> Down -> Right
 3. Down -> Right -> Down
- 
+
 Constraints:
 
 1 <= m, n <= 100
 */
 func uniquePaths(m int, n int) int {
 
-	dp:= make([][]int, 0)
-	for i:=0; i<m;i++ {
-		tmp:= make([]int, n)
-		for j:=0; j <n; j++ {
+	dp := make([][]int, 0)
+	for i := 0; i < m; i++ {
+		tmp := make([]int, n)
+		for j := 0; j < n; j++ {
 			tmp = append(tmp, 0)
 		}
 		dp = append(dp, tmp)
 	}
-	for i:=0 ; i < n; i++ {
+	for i := 0; i < n; i++ {
 		dp[0][i] = 1
 	}
-	for i:=0; i < m; i++ {
+	for i := 0; i < m; i++ {
 		dp[i][0] = 1
 	}
-	for i:=1 ; i < m; i++ {
-		for j:=1; j < n; j++ {
+	for i := 1; i < m; i++ {
+		for j := 1; j < n; j++ {
 			dp[i][j] = dp[i-1][j] + dp[i][j-1]
 		}
 	}
@@ -273,8 +270,8 @@ A common subsequence of two strings is a subsequence that is common to both stri
 
 Example 1:
 
-Input: text1 = "abcde", text2 = "ace" 
-Output: 3  
+Input: text1 = "abcde", text2 = "ace"
+Output: 3
 Explanation: The longest common subsequence is "ace" and its length is 3.
 Example 2:
 
@@ -286,7 +283,6 @@ Example 3:
 Input: text1 = "abc", text2 = "def"
 Output: 0
 Explanation: There is no such common subsequence, so the result is 0.
- 
 
 Constraints:
 
@@ -294,18 +290,17 @@ Constraints:
 text1 and text2 consist of only lowercase English characters.
 */
 func longestCommonSubsequence(text1 string, text2 string) int {
-    var recursive func(idx1, idx2 int) int
+	var recursive func(idx1, idx2 int) int
 	fmt.Println()
-	dp:=make([][]int,0)
-	for i:=0 ; i <= len(text1); i++ {
-		tmp:= make([]int, 0)
-		for j:=0 ; j <= len(text2); j++ {
+	dp := make([][]int, 0)
+	for i := 0; i <= len(text1); i++ {
+		tmp := make([]int, 0)
+		for j := 0; j <= len(text2); j++ {
 			tmp = append(tmp, -1)
 		}
 		dp = append(dp, tmp)
 	}
 
-	
 	recursive = func(idx1, idx2 int) int {
 		if idx1 == 0 || idx2 == 0 {
 			return 0
@@ -316,19 +311,19 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 		}
 		if text1[idx1-1] == text2[idx2-1] {
 			dp[idx1][idx2] = recursive(idx1-1, idx2-1) + 1
-		}else {
+		} else {
 			dp[idx1][idx2] = max(recursive(idx1-1, idx2), recursive(idx1, idx2-1))
 		}
 		return dp[idx1][idx2]
 	}
 
-	rs:= recursive(len(text1), len(text2))
+	rs := recursive(len(text1), len(text2))
 	return rs
 }
 
 /*
 You are given an array prices where prices[i] is the price of a given stock on the ith day, and an integer fee representing a transaction fee.
-Find the maximum profit you can achieve. 
+Find the maximum profit you can achieve.
 You may complete as many transactions as you like, but you need to pay the transaction fee for each transaction.
 
 Note:
@@ -350,7 +345,6 @@ Example 2:
 
 Input: prices = [1,3,7,5,10,3], fee = 3
 Output: 6
- 
 
 Constraints:
 
@@ -359,14 +353,14 @@ Constraints:
 0 <= fee < 5 * 104
 */
 func maxProfit(prices []int, fee int) int {
-    var recursive func(index int, isHold int) int
-	dp := make([][]int,0)
-	for i:=0 ; i< len(prices); i++ {
-		tmp := make([]int,0)
-		for j:=0 ; j < 2; j++ {
+	var recursive func(index int, isHold int) int
+	dp := make([][]int, 0)
+	for i := 0; i < len(prices); i++ {
+		tmp := make([]int, 0)
+		for j := 0; j < 2; j++ {
 			tmp = append(tmp, -1)
 		}
-		dp = append(dp, tmp )
+		dp = append(dp, tmp)
 	}
 	fmt.Println(dp)
 	recursive = func(index int, isHold int) int {
@@ -379,19 +373,19 @@ func maxProfit(prices []int, fee int) int {
 		}
 
 		if isHold == 1 {
-			noSell:= recursive(index+1, 1)
-			sell:= recursive(index+1, 0) + prices[index] - fee
+			noSell := recursive(index+1, 1)
+			sell := recursive(index+1, 0) + prices[index] - fee
 			dp[index][isHold] = max(noSell, sell)
-			return dp[index][isHold] 
-		}else {
-			buy:= recursive(index+1, 1) - prices[index] 
-			noBuy:= recursive(index+1, 0) 
+			return dp[index][isHold]
+		} else {
+			buy := recursive(index+1, 1) - prices[index]
+			noBuy := recursive(index+1, 0)
 			dp[index][isHold] = max(buy, noBuy)
 			return dp[index][isHold]
 		}
 	}
 
-	rs:= recursive(0, 0)
+	rs := recursive(0, 0)
 	return rs
 }
 
@@ -406,7 +400,7 @@ Example 1:
 
 Input: word1 = "horse", word2 = "ros"
 Output: 3
-Explanation: 
+Explanation:
 horse -> rorse (replace 'h' with 'r')
 rorse -> rose (remove 'r')
 rose -> ros (remove 'e')
@@ -414,20 +408,20 @@ Example 2:
 
 Input: word1 = "intention", word2 = "execution"
 Output: 5
-Explanation: 
+Explanation:
 intention -> inention (remove 't')
 inention -> enention (replace 'i' with 'e')
 enention -> exention (replace 'n' with 'x')
 exention -> exection (replace 'n' with 'c')
 exection -> execution (insert 'u')
- 
+
 Constraints:
 
 0 <= word1.length, word2.length <= 500
 word1 and word2 consist of lowercase English letters.
 */
 func minDistance(word1 string, word2 string) int {
-	if word1 =="" {
+	if word1 == "" {
 		return len(word2)
 	}
 	if word2 == "" {
@@ -435,15 +429,15 @@ func minDistance(word1 string, word2 string) int {
 	}
 	var recursive func(index1, index2 int) int
 
-	dp:= make([][]int, 0)
-	for i:=0 ; i < len(word1); i++ {
-		tmp:=make([]int,0)
-		for j:=0; j < len(word2); j++ {
+	dp := make([][]int, 0)
+	for i := 0; i < len(word1); i++ {
+		tmp := make([]int, 0)
+		for j := 0; j < len(word2); j++ {
 			tmp = append(tmp, -1)
 		}
 		dp = append(dp, tmp)
 	}
-	
+
 	recursive = func(index1, index2 int) int {
 		if index1 == len(word1) {
 			return len(word2) - index2
@@ -458,22 +452,22 @@ func minDistance(word1 string, word2 string) int {
 
 		if word1[index1] == word2[index2] {
 			dp[index1][index2] = recursive(index1+1, index2+1)
-		}else  {
+		} else {
 			replace := recursive(index1+1, index2+1)
-			insert := recursive(index1, index2+1) 
-			delete := recursive(index1+1, index2) 
+			insert := recursive(index1, index2+1)
+			delete := recursive(index1+1, index2)
 			dp[index1][index2] = min(min(insert, delete), replace) + 1
 		}
 		return dp[index1][index2]
-		
+
 	}
 
-	rs := recursive(0,0)
+	rs := recursive(0, 0)
 	return rs
 }
 
 /*
-Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n), 
+Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n),
 ans[i] is the number of 1's in the binary representation of i.
 
 Example 1:
@@ -505,7 +499,7 @@ Follow up:
 It is very easy to come up with a solution with a runtime of O(n log n). Can you do it in linear time O(n) and possibly in a single pass?
 Can you do it without using any built-in function (i.e., like __builtin_popcount in C++)?
 
-// f(0)= 0000  
+// f(0)= 0000
 // f(1)= 0001   1
 
 // f(2)= 0010   1
@@ -529,44 +523,41 @@ Can you do it without using any built-in function (i.e., like __builtin_popcount
 
 15/2 = 7
 
-
-10/2 = 5 
+10/2 = 5
 10 - 5 = 5
 
 // f(16)= 10000 1
 
-
 3 = 2 + 1
 
-1 + 3 = 4 
-
+1 + 3 = 4
 */
 func countBits(n int) []int {
 	if n == 0 {
 		return []int{0}
 	}
-	
-	dp:=make([]int, n+1)
-	if n== 1 {
-		dp[1]=1
+
+	dp := make([]int, n+1)
+	if n == 1 {
+		dp[1] = 1
 		return dp
 	}
 
-	dp[0]=0
-	dp[1]=1
-	binary:=1
-	for i:=2; i<= n;i++ {
-		if i < binary * 2 {
-			dp[i]=dp[i-binary] + dp[binary]
-		}else if i== binary*2{
+	dp[0] = 0
+	dp[1] = 1
+	binary := 1
+	for i := 2; i <= n; i++ {
+		if i < binary*2 {
+			dp[i] = dp[i-binary] + dp[binary]
+		} else if i == binary*2 {
 			dp[i] = 1
-		}else {
-			binary = binary*2
+		} else {
+			binary = binary * 2
 			dp[i] = dp[i-binary] + dp[binary]
 		}
 	}
 
-    // var recursive func(count int, binary int) int 
+	// var recursive func(count int, binary int) int
 	// recursive = func(count int, binary int) int {
 	// 	if binary == 0 {
 	// 		return 0
@@ -588,4 +579,53 @@ func countBits(n int) []int {
 	// rs := recursive(n,i/2)
 	// fmt.Println(rs)
 	return dp
+}
+
+/*
+[1,4,5], 13
+
+1 <=> min([1,4,5], 12) + 1
+
+	1 <=> min([1,4,5], 11) + 1
+	4 <=> min([1,4,5], 7) + 1
+	5 <=> min([1,4,5], 6) + 1
+		...
+			1 <=> min([1,4,5], -1)
+
+4 <=> min([1,4,5], 9) + 1
+5 <=> min([1,4,5], 8) + 1
+*/
+func coinChange(coins []int, amount int) int {
+	memo := make(map[int]int)
+
+	var recursive func(amount int) int
+
+	recursive = func(amount int) int {
+
+		if amount == 0 {
+			return 0
+		}
+		if amount < 0 {
+			return math.MaxInt32
+		}
+		if _, ok := memo[amount]; ok {
+			return memo[amount]
+		}
+
+		minCount := math.MaxInt32
+		for _, coin := range coins {
+			count := recursive(amount - coin)
+			if count != math.MaxInt32 {
+				minCount = min(minCount, count+1)
+			}
+		}
+		memo[amount] = minCount
+		return minCount
+	}
+
+	rs := recursive(amount)
+	if rs == math.MaxInt32 {
+		return -1
+	}
+	return rs
 }

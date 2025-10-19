@@ -40,45 +40,45 @@ func main() {
 	// fmt.Println(obj.Ping(3004))
 
 	// fmt.Println(predictPartyVictory("DRDRR"))
-	node1:=&ListNode{Val: 1, Next: nil}
-	node2:=&ListNode{Val: 2, Next: nil}
-	node3:=&ListNode{Val: 3, Next: nil}
-	node4:=&ListNode{Val: 4, Next: nil}
-	node5:=&ListNode{Val: 5, Next: nil}
-	node6:=&ListNode{Val: 6, Next: nil}
+	// node1:=&ListNode{Val: 1, Next: nil}
+	// node2:=&ListNode{Val: 2, Next: nil}
+	// node3:=&ListNode{Val: 3, Next: nil}
+	// node4:=&ListNode{Val: 4, Next: nil}
+	// node5:=&ListNode{Val: 5, Next: nil}
+	// node6:=&ListNode{Val: 6, Next: nil}
 	// node7:=&ListNode{Val: 6, Next: nil}
-	node1.Next = node2
-	node2.Next = node3
-	node3.Next = node4
+	// node1.Next = node2
+	// node2.Next = node3
+	// node3.Next = node4
 	// node4.Next = nil
-	node4.Next = node5
-	node5.Next = nil
-	node6.Next = nil
+	// node4.Next = node5
+	// node5.Next = nil
+	// node6.Next = nil
 	// node6.Next = node7
 	// deleteMiddle(node1)
 	// oddEvenList(node1)
 	// node:= reverseList(node1)
 	// fmt.Println(pairSum(node1))
 
-	tnode1:=&TreeNode{Val: 1, Left: nil, Right: nil}
-	tnode2:=&TreeNode{Val: 2, Left: nil, Right: nil}
-	tnode3:=&TreeNode{Val: 3, Left: nil, Right: nil}
-	tnode4:=&TreeNode{Val: 4, Left: nil, Right: nil}
-	tnode5:=&TreeNode{Val: 5, Left: nil, Right: nil}
-	tnode6:=&TreeNode{Val: 6, Left: nil, Right: nil}
-	tnode7:=&TreeNode{Val: 7, Left: nil, Right: nil}
-	tnode8:= &TreeNode{Val: 8, Left: nil, Right: nil}
+	// tnode1:=&TreeNode{Val: 1, Left: nil, Right: nil}
+	// tnode2:=&TreeNode{Val: 2, Left: nil, Right: nil}
+	// tnode3:=&TreeNode{Val: 3, Left: nil, Right: nil}
+	// tnode4:=&TreeNode{Val: 4, Left: nil, Right: nil}
+	// tnode5:=&TreeNode{Val: 5, Left: nil, Right: nil}
+	// tnode6:=&TreeNode{Val: 6, Left: nil, Right: nil}
+	// tnode7:=&TreeNode{Val: 7, Left: nil, Right: nil}
+	// tnode8:= &TreeNode{Val: 8, Left: nil, Right: nil}
 
-	tnode1.Left = tnode2
-	tnode1.Right = tnode3
-	tnode3.Left = tnode4
-	tnode3.Right = tnode5
+	// tnode1.Left = tnode2
+	// tnode1.Right = tnode3
+	// tnode3.Left = tnode4
+	// tnode3.Right = tnode5
 
-	tnode4.Left = tnode6
-	tnode6.Left = tnode7
+	// tnode4.Left = tnode6
+	// tnode6.Left = tnode7
 
-	tnode8.Left = tnode3
-	tnode8.Right = tnode4
+	// tnode8.Left = tnode3
+	// tnode8.Right = tnode4
 	// fmt.Println(maxDepth(tnode1))
 	// fmt.Println(maxDepthIter(tnode1))
 	// fmt.Println(leafSimilar(tnode1, tnode8))
@@ -98,23 +98,23 @@ func main() {
 	// fmt.Println(lastRemaining(9))
 	// fmt.Println(predictTheWinner([]int{2,4,55,6,8}))
 
-	zig1:=&TreeNode{Val: 1, Left: nil, Right: nil}
-	zig2:=&TreeNode{Val: 2, Left: nil, Right: nil}
-	zig3:=&TreeNode{Val: 3, Left: nil, Right: nil}
-	zig4:=&TreeNode{Val: 4, Left: nil, Right: nil}
-	zig5:=&TreeNode{Val: 5, Left: nil, Right: nil}
-	zig6:=&TreeNode{Val: 6, Left: nil, Right: nil}
-	zig7:=&TreeNode{Val: 7, Left: nil, Right: nil}
-	zig8:=&TreeNode{Val: 8, Left: nil, Right: nil}
+	// zig1:=&TreeNode{Val: 1, Left: nil, Right: nil}
+	// zig2:=&TreeNode{Val: 2, Left: nil, Right: nil}
+	// zig3:=&TreeNode{Val: 3, Left: nil, Right: nil}
+	// zig4:=&TreeNode{Val: 4, Left: nil, Right: nil}
+	// zig5:=&TreeNode{Val: 5, Left: nil, Right: nil}
+	// zig6:=&TreeNode{Val: 6, Left: nil, Right: nil}
+	// zig7:=&TreeNode{Val: 7, Left: nil, Right: nil}
+	// zig8:=&TreeNode{Val: 8, Left: nil, Right: nil}
 	// zig9:=&TreeNode{Val: 9, Left: nil, Right: nil}
 	// zig10:=&TreeNode{Val: 10, Left: nil, Right: nil}
-	zig1.Right = zig2
-	zig2.Left = zig3
-	zig2.Right = zig4
-	zig4.Left = zig5
-	zig4.Right = zig6
-	zig5.Right = zig7
-	zig7.Right = zig8
+	// zig1.Right = zig2
+	// zig2.Left = zig3
+	// zig2.Right = zig4
+	// zig4.Left = zig5
+	// zig4.Right = zig6
+	// zig5.Right = zig7
+	// zig7.Right = zig8
 
 	// values := []interface{}{
 	// 	5,3,6,2,4,nil,7,
@@ -185,6 +185,8 @@ func main() {
 	// stack.Next(60)
 	// stack.Next(75)
 	// stack.Next(85)
+	coin := coinChange([]int{1,4,5}, 13)
+	fmt.Println(coin)
 	
 }
 
