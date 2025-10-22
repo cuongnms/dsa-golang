@@ -185,9 +185,10 @@ func main() {
 	// stack.Next(60)
 	// stack.Next(75)
 	// stack.Next(85)
-	coin := coinChange([]int{1,4,5}, 13)
-	fmt.Println(coin)
-	
+	// coin := coinChange([]int{1,4,5}, 13)
+	// fmt.Println(coin)
+	rs := generate(5)
+	fmt.Println(rs)
 }
 
 // [17 12 10 2] 7 [2 11 20 8]
