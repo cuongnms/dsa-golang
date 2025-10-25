@@ -630,11 +630,10 @@ func coinChange(coins []int, amount int) int {
 	return rs
 }
 
-
 /*
 Given an integer numRows, return the first numRows of Pascal's triangle.
 In Pascal's triangle, each number is the sum of the two numbers directly above it as shown:
- 
+
 Example 1:
 
 Input: numRows = 5
@@ -649,23 +648,53 @@ Constraints:
 1 <= numRows <= 30
 */
 func generate(numRows int) [][]int {
-    if numRows == 1 {
+	if numRows == 1 {
 		return [][]int{{1}}
 	}
 
-	rs:= generate(numRows-1);
-	curRow:= rs[len(rs)-1]
+	rs := generate(numRows - 1)
+	curRow := rs[len(rs)-1]
 
 	newRow := []int{}
-	for i:=0 ; i <= len(curRow);i++ {
-		if i== 0 || i == len(curRow) {
+	for i := 0; i <= len(curRow); i++ {
+		if i == 0 || i == len(curRow) {
 			newRow = append(newRow, 1)
-		}else {
-			newRow = append(newRow, curRow[i-1] + curRow[i])
+		} else {
+			newRow = append(newRow, curRow[i-1]+curRow[i])
 		}
 	}
 	rs = append(rs, newRow)
 
 	return rs
+
+}
+
+func maxProfitDP(prices []int) int {
+	if len(prices) == 1 {
+		return 0
+	}
+	mapMaxValue := make(map[int]int)
+	var maxValue func(index int) int
+	maxValue = func(index int) int {
+		if val, ok := mapMaxValue[index]; ok {
+			return val
+		}
+		if index == len(prices)-1 {
+			mapMaxValue[index] = prices[index]
+            return mapMaxValue[index]
+		}
+		if index == len(prices)-2 {
+			mapMaxValue[index] = max(prices[index], prices[index+1])
+			return mapMaxValue[index]
+		}
+
+		mapMaxValue[index] = max(maxValue(index+1), prices[index])
 	
+		return mapMaxValue[index]
+	}
+	rs := 0
+	for i := 1; i < len(prices); i++ {
+		rs = max(rs, maxValue(i)-prices[i-1])
+	}
+	return rs
 }

@@ -187,7 +187,9 @@ func main() {
 	// stack.Next(85)
 	// coin := coinChange([]int{1,4,5}, 13)
 	// fmt.Println(coin)
-	rs := generate(5)
+	// rs := generate(5)
+	// fmt.Println(rs)
+	rs := maxProfitDP([]int{7,1,5,3,6,4})
 	fmt.Println(rs)
 }
 
