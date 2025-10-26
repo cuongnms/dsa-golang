@@ -698,3 +698,39 @@ func maxProfitDP(prices []int) int {
 	}
 	return rs
 }
+
+
+func divisorGame(n int) bool {
+	mapVal:= make(map[int]bool)
+	
+	var recursive func(number int) bool 
+
+	recursive = func(number int) bool {
+		if val, ok:= mapVal[number]; ok {
+			return val
+		}
+
+		if number < 2 {
+			return false
+		}
+
+		if number == 2 {
+			return true
+		}
+	
+		for i:= 1; i< number; i++ {
+			if number % i == 0 {
+				rs:= recursive(number - i)
+				mapVal[number-i] = rs
+				if !rs {
+					mapVal[number] = true
+					return mapVal[number]
+				}
+			}
+		}
+		return mapVal[number]
+	}
+
+	rs:= recursive(n)
+	return rs
+}

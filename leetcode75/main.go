@@ -189,7 +189,8 @@ func main() {
 	// fmt.Println(coin)
 	// rs := generate(5)
 	// fmt.Println(rs)
-	rs := maxProfitDP([]int{7,1,5,3,6,4})
+	// rs := maxProfitDP([]int{7,1,5,3,6,4})
+	rs := divisorGame(3)
 	fmt.Println(rs)
 }
 
