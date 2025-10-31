@@ -734,3 +734,69 @@ func divisorGame(n int) bool {
 	rs:= recursive(n)
 	return rs
 }
+
+
+/*
+For a string sequence, a string word is k-repeating if word concatenated k times is a substring of sequence. The word's maximum k-repeating value is the highest value k where word is k-repeating in sequence. If word is not a substring of sequence, word's maximum k-repeating value is 0.
+
+Given strings sequence and word, return the maximum k-repeating value of word in sequence.
+
+Example 1:
+
+Input: sequence = "ababc", word = "ab"
+Output: 2
+Explanation: "abab" is a substring in "ababc".
+Example 2:
+
+Input: sequence = "ababc", word = "ba"
+Output: 1
+Explanation: "ba" is a substring in "ababc". "baba" is not a substring in "ababc".
+Example 3:
+
+Input: sequence = "ababc", word = "ac"
+Output: 0
+Explanation: "ac" is not a substring in "ababc". 
+ 
+Constraints:
+
+1 <= sequence.length <= 100
+1 <= word.length <= 100
+sequence and word contains only lowercase English letters.
+*/
+func maxRepeating(sequence string, word string) int {
+	
+	var recursive func(index int) int
+	mapRepeat:= make(map[int]int)
+	recursive = func(index int) int {
+		/*
+		acbaaacbcbac
+		cb
+		*/
+
+		//base case
+		if index + len(word) > len(sequence) {
+			return 0
+		}
+		if val, ok := mapRepeat[index] ; ok {
+			return val
+		}
+
+		if sequence[index : index + len(word)] == word {
+			mapRepeat[index] = recursive(index + len(word)) + 1
+			
+		}else {
+			mapRepeat[index] = 0
+		}
+		return mapRepeat[index]
+	}
+
+	max:=0
+	for i:= 0; i < len(sequence) ; i++ {
+		tmpMax := recursive(i)
+		if max < tmpMax {
+			max = tmpMax
+		}
+	}
+	return max
+
+}
